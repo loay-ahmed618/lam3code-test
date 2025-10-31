@@ -21,9 +21,12 @@
             --primary-color: #3498db;
             --secondary-color: #61dca3;
             --accent-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
             --dark-bg: #000;
             --card-bg: rgba(255, 255, 255, 0.1);
             --text-color: #ecf0f1;
+            --modal-bg: rgba(0, 0, 0, 0.95);
         }
 
         body {
@@ -33,9 +36,10 @@
             position: relative;
             min-height: 100vh;
             overflow-x: hidden;
+            touch-action: pan-y;
         }
 
-        /* Glitch Background */
+        /* Glitch Background - الخلفية الأصلية */
         #glitch-background-container {
             position: fixed;
             top: 0;
@@ -122,18 +126,19 @@
             border: none;
             padding: 15px 35px;
             font-size: 18px;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             margin-top: 20px;
             transition: all 0.3s ease;
             font-weight: bold;
             display: inline-block;
+            box-shadow: 0 4px 15px rgba(97, 220, 163, 0.3);
         }
 
         .cta-button:hover {
             background-color: #4ecf91;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(97, 220, 163, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(97, 220, 163, 0.4);
         }
 
         /* ==========================
@@ -168,15 +173,28 @@
             color: white;
             border: none;
             padding: 10px 18px;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
             font-size: 14px;
             white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+        }
+
+        .auth-buttons button:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
         }
 
         #language-switcher {
             background-color: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+        }
+
+        #language-switcher:hover {
+            background-color: #2980b9;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
         }
 
         /* GooeyNav Specific Styles */
@@ -453,37 +471,49 @@
         .courses-container {
             position: relative;
             overflow: hidden;
+            padding: 20px 0;
+        }
+
+        .cards-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
         }
 
         .cards-container {
             display: flex;
             flex-wrap: nowrap;
             width: fit-content;
-            gap: 25px;
-            animation: marquee 40s linear infinite;
+            gap: 30px;
+            animation: marquee 30s linear infinite;
             will-change: transform;
             padding: 10px 0;
+            cursor: grab;
         }
 
         .cards-container:hover {
             animation-play-state: paused;
         }
 
+        .cards-container.grabbing {
+            cursor: grabbing;
+        }
+
         .card {
             background-color: var(--card-bg);
-            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.2);
-            min-width: 280px;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+            min-width: 300px;
             flex-shrink: 0;
-            padding: 25px 20px;
-            border-radius: 12px;
+            padding: 20px;
+            border-radius: 10px;
             transition: all 0.4s ease;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(52, 152, 219, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.3);
         }
 
         .card-img {
@@ -500,10 +530,6 @@
             color: var(--primary-color);
             font-size: 20px;
             margin-bottom: 12px;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .card-content p {
@@ -511,7 +537,39 @@
             margin-bottom: 20px;
             font-size: 15px;
             line-height: 1.5;
-            min-height: 70px;
+        }
+
+        /* أزرار الكروت - التصميم الأصلي */
+        .card-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .card-button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .card-button:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .card-button.secondary {
+            background-color: var(--primary-color);
+        }
+
+        .card-button.secondary:hover {
+            background-color: #2980b9;
         }
 
         @keyframes marquee {
@@ -524,33 +582,163 @@
             }
         }
 
-        .card-button {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 15px;
-            font-size: 15px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .card-button:hover {
-            background-color: #c0392b;
-            transform: translateY(-2px);
-        }
-
         .feature-icon {
             color: var(--secondary-color);
-            font-size: 45px;
-            margin-bottom: 20px;
+            font-size: 40px;
+            margin-bottom: 15px;
         }
 
         /* ==========================
-           5. Video Section - محسنة
+           5. Modal Styles - النوافذ المنبثقة
+           ========================== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-bg);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+        }
+
+        .modal-icon {
+            font-size: 60px;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            color: var(--primary-color);
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .modal-text {
+            color: #bdc3c7;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .payment-info {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .payment-number {
+            font-size: 24px;
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin: 15px 0;
+            direction: ltr;
+            display: inline-block;
+        }
+
+        .payment-amount {
+            font-size: 20px;
+            color: var(--warning-color);
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .code-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            font-size: 16px;
+            text-align: center;
+            margin: 20px 0;
+            transition: border-color 0.3s;
+        }
+
+        .code-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .modal-button {
+            background-color: var(--secondary-color);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .modal-button:hover {
+            background-color: #4ecf91;
+            transform: translateY(-2px);
+        }
+
+        .modal-button.secondary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .modal-button.secondary:hover {
+            background-color: #2980b9;
+        }
+
+        /* ==========================
+           6. Video Section - محسنة
            ========================== */
         .video-section {
             padding: 50px 0;
@@ -558,15 +746,15 @@
 
         .video-container {
             position: relative;
-            width: 95%;
-            max-width: 900px;
+            width: 90%;
+            max-width: 960px;
             margin: 30px auto;
             padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
             background-color: #2c3e50;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(52, 152, 219, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.4);
         }
 
         .video-placeholder {
@@ -579,23 +767,12 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-            transition: all 0.3s ease;
-        }
-
-        .video-placeholder:hover {
-            background: linear-gradient(135deg, #3498db, #2c3e50);
-        }
-
-        .video-placeholder:hover .fa-play-circle {
-            transform: scale(1.1);
-            color: var(--secondary-color);
         }
 
         .video-placeholder .fa-play-circle {
-            font-size: 70px;
-            color: var(--primary-color);
-            transition: all 0.3s ease;
+            font-size: 80px;
+            color: #3498db;
+            transition: color 0.3s;
         }
 
         .video-section p {
@@ -603,11 +780,10 @@
             margin-top: 20px;
             font-size: 16px;
             color: #bdc3c7;
-            padding: 0 15px;
         }
 
         /* ==========================
-           6. Features Section - محسنة
+           7. Features Section - محسنة
            ========================== */
         .features {
             padding: 50px 0;
@@ -621,20 +797,20 @@
         }
 
         .feature-card {
-            flex: 1;
-            min-width: 300px;
-            max-width: 350px;
             background-color: var(--card-bg);
-            padding: 30px 25px;
-            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+            min-width: 300px;
+            flex: 1;
+            padding: 25px 20px;
+            border-radius: 10px;
             text-align: center;
             transition: all 0.4s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(52, 152, 219, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.3);
         }
 
         .feature-card h3 {
@@ -650,7 +826,7 @@
         }
 
         /* ==========================
-           7. Language & Visibility
+           8. Language & Visibility
            ========================== */
         .content-en,
         .content-ar {
@@ -662,7 +838,7 @@
         }
 
         /* ==========================
-           8. Footer - محسن
+           9. Footer - محسن
            ========================== */
         footer {
             padding: 50px 0 20px;
@@ -674,20 +850,19 @@
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
-            padding-bottom: 30px;
+            padding-bottom: 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .footer-section {
             flex: 1;
-            min-width: 250px;
-            margin: 15px;
+            min-width: 200px;
+            margin: 10px;
         }
 
         .footer-section h3 {
             color: var(--primary-color);
-            margin-bottom: 20px;
-            font-size: 20px;
+            margin-bottom: 15px;
         }
 
         .footer-section p {
@@ -700,62 +875,28 @@
 
         .footer-section a {
             display: block;
-            color: #bdc3c7;
+            color: #ecf0f1;
             text-decoration: none;
-            margin-bottom: 8px;
-            transition: color 0.3s;
-            padding: 5px 0;
-        }
-
-        .footer-section a:hover {
-            color: var(--secondary-color);
-            transform: translateX(5px);
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
+            margin-bottom: 5px;
         }
 
         .social-icons a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .social-icons a:hover {
-            background-color: var(--primary-color);
-            transform: translateY(-3px);
-        }
-
-        .social-icons i {
-            font-size: 18px;
-            color: var(--secondary-color);
+            display: inline-block;
+            margin-left: 10px;
+            font-size: 20px;
+            color: #61dca3;
         }
 
         .footer-bottom {
             text-align: center;
-            padding-top: 25px;
-            color: #95a5a6;
-            font-size: 14px;
+            padding-top: 20px;
         }
 
         /* ==========================
-           9. Responsive Styles - محسنة
+           10. Responsive Styles
            ========================== */
 
-        /* شاشات متوسطة (تابلت) */
         @media (max-width: 1024px) {
-            .container {
-                width: 95%;
-            }
-
             .gooey-nav-container {
                 display: none;
             }
@@ -775,13 +916,8 @@
             .section-title {
                 font-size: 28px;
             }
-
-            .card {
-                min-width: 260px;
-            }
         }
 
-        /* شاشات صغيرة (تابلت صغير) */
         @media (max-width: 768px) {
 
             .hero,
@@ -800,28 +936,12 @@
                 font-size: 28px;
             }
 
-            .hero p {
-                font-size: 16px;
-            }
-
             .section-title {
                 font-size: 24px;
-                margin-bottom: 30px;
             }
 
             .card {
-                min-width: 240px;
-                padding: 20px 15px;
-            }
-
-            .card-content h3 {
-                font-size: 18px;
-                min-height: 50px;
-            }
-
-            .card-content p {
-                font-size: 14px;
-                min-height: 60px;
+                min-width: 250px;
             }
 
             .footer-content {
@@ -829,137 +949,30 @@
             }
 
             .footer-section {
-                margin: 10px 0;
-                min-width: 100%;
-            }
-
-            .features-container {
-                gap: 20px;
-            }
-
-            .feature-card {
-                min-width: 100%;
+                margin: 15px 0;
             }
         }
 
-        /* شاشات الهواتف */
         @media (max-width: 480px) {
-            .container {
-                width: 100%;
-                padding: 0 20px;
-            }
-
-            .hero {
-                padding: 70px 0 50px;
-            }
-
             .hero h1 {
                 font-size: 24px;
-                line-height: 1.3;
-            }
-
-            .hero p {
-                font-size: 15px;
-                line-height: 1.5;
             }
 
             .section-title {
-                font-size: 22px;
-                margin-bottom: 25px;
+                font-size: 20px;
             }
 
             .cta-button {
-                padding: 14px 30px;
+                padding: 12px 25px;
                 font-size: 16px;
-                width: 100%;
-                max-width: 280px;
             }
 
             .card {
                 min-width: 220px;
-                padding: 18px 12px;
-            }
-
-            .cards-container {
-                gap: 20px;
-            }
-
-            .card-img {
-                font-size: 35px;
-                height: 50px;
-            }
-
-            .card-content h3 {
-                font-size: 17px;
-                min-height: 45px;
-            }
-
-            .card-content p {
-                font-size: 13px;
-                min-height: 55px;
             }
 
             .video-placeholder .fa-play-circle {
                 font-size: 60px;
-            }
-
-            .feature-card {
-                padding: 25px 20px;
-            }
-
-            .feature-icon {
-                font-size: 40px;
-            }
-
-            .feature-card h3 {
-                font-size: 20px;
-            }
-
-            .feature-card p {
-                font-size: 15px;
-            }
-
-            .mobile-nav {
-                width: 85%;
-                padding: 70px 20px 25px;
-            }
-
-            .mobile-nav-links a {
-                font-size: 17px;
-                padding: 14px 10px;
-            }
-
-            .footer-section h3 {
-                font-size: 18px;
-            }
-        }
-
-        /* شاشات صغيرة جداً */
-        @media (max-width: 360px) {
-            .hero h1 {
-                font-size: 22px;
-            }
-
-            .section-title {
-                font-size: 20px;
-            }
-
-            .card {
-                min-width: 200px;
-            }
-
-            .mobile-nav {
-                width: 90%;
-            }
-        }
-
-        /* منع التكبير على الهواتف */
-        @media (max-width: 768px) {
-
-            input,
-            select,
-            textarea {
-                font-size: 16px !important;
             }
         }
     </style>
@@ -997,18 +1010,11 @@
                 <li class="nav-item content-ar active-content"><a href="#" data-text="الكورسات">الكورسات</a></li>
                 <li class="nav-item content-ar active-content"><a href="#" data-text="المدونة">المدونة</a></li>
                 <li class="nav-item content-ar active-content"><a href="#" data-text="اتصل بنا">اتصل بنا</a></li>
-
-                <li class="nav-item content-en"><a href="#" data-text="Home">Home</a></li>
-                <li class="nav-item content-en"><a href="#" data-text="Courses">Courses</a></li>
-                <li class="nav-item content-en"><a href="#" data-text="Blog">Blog</a></li>
-                <li class="nav-item content-en"><a href="#" data-text="Contact">Contact</a></li>
             </ul>
 
             <div class="mobile-auth-buttons">
                 <button class="content-ar active-content" onclick="alert('صفحة تسجيل الدخول')">تسجيل الدخول</button>
                 <button class="content-ar active-content" onclick="alert('صفحة إنشاء حساب')">إنشاء حساب</button>
-                <button class="content-en" onclick="alert('Login page')">Log In</button>
-                <button class="content-en" onclick="alert('Sign Up page')">Sign Up</button>
             </div>
 
             <div class="mobile-language-switcher">
@@ -1032,11 +1038,6 @@
                         <li class="nav-item content-ar active-content"><a href="#" data-text="المدونة">المدونة</a></li>
                         <li class="nav-item content-ar active-content"><a href="#" data-text="اتصل بنا">اتصل بنا</a>
                         </li>
-
-                        <li class="nav-item content-en"><a href="#" data-text="Home">Home</a></li>
-                        <li class="nav-item content-en"><a href="#" data-text="Courses">Courses</a></li>
-                        <li class="nav-item content-en"><a href="#" data-text="Blog">Blog</a></li>
-                        <li class="nav-item content-en"><a href="#" data-text="Contact">Contact</a></li>
                     </ul>
                 </nav>
                 <span class="effect filter" id="filter-effect"></span>
@@ -1046,12 +1047,63 @@
             <div class="auth-buttons">
                 <button class="content-ar active-content" onclick="alert('صفحة تسجيل الدخول')">تسجيل الدخول</button>
                 <button class="content-ar active-content" onclick="alert('صفحة إنشاء حساب')">إنشاء حساب</button>
-                <button class="content-en" onclick="alert('Login page')">Log In</button>
-                <button class="content-en" onclick="alert('Sign Up page')">Sign Up</button>
                 <button id="language-switcher">English</button>
             </div>
         </div>
     </nav>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closePaymentModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-icon">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <h2 class="modal-title">الدفع عبر فودافون كاش</h2>
+            <p class="modal-text">للاستفادة من الكورس، يرجى التحويل إلى الرقم التالي:</p>
+
+            <div class="payment-info">
+                <p>رقم فودافون كاش:</p>
+                <div class="payment-number">01091877231</div>
+                <p>المبلغ المطلوب:</p>
+                <div class="payment-amount" id="courseAmount">500 جنيه</div>
+            </div>
+
+            <p class="modal-text">بعد التحويل، سيصلك رسالة تأكيد خلال 24 ساعة</p>
+
+            <button class="modal-button" onclick="closePaymentModal()">
+                <i class="fas fa-check"></i> تم الدفع
+            </button>
+            <button class="modal-button secondary" onclick="closePaymentModal()">
+                <i class="fas fa-times"></i> إلغاء
+            </button>
+        </div>
+    </div>
+
+    <!-- Code Entry Modal -->
+    <div class="modal" id="codeModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeCodeModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-icon">
+                <i class="fas fa-key"></i>
+            </div>
+            <h2 class="modal-title">أدخل كود الكورس</h2>
+            <p class="modal-text">إذا كان لديك كود خاص للكورس، أدخله هنا:</p>
+
+            <input type="text" class="code-input" id="courseCode" placeholder="أدخل الكود هنا..." maxlength="20">
+
+            <button class="modal-button" onclick="validateCode()">
+                <i class="fas fa-unlock"></i> تفعيل الكود
+            </button>
+            <button class="modal-button secondary" onclick="closeCodeModal()">
+                <i class="fas fa-times"></i> إلغاء
+            </button>
+        </div>
+    </div>
 
     <div id="arabic-content" class="active-content content-ar">
         <section class="hero">
@@ -1067,86 +1119,95 @@
             <div class="container">
                 <h2 class="section-title">الكورسات المتاحة</h2>
                 <div class="courses-container">
-                    <div class="cards-container">
-                        <div class="card">
-                            <div class="card-img">
-                                <i class="fab fa-html5"></i>
+                    <div class="cards-wrapper">
+                        <div class="cards-container" id="cardsContainer">
+                            <!-- HTML & CSS Course -->
+                            <div class="card">
+                                <div class="card-img">HTML & CSS</div>
+                                <div class="card-content">
+                                    <h3>تطوير واجهات الويب الأساسية</h3>
+                                    <p>تعلم أساسيات تطوير واجهات الويب باستخدام HTML و CSS.</p>
+                                    <div class="card-buttons">
+                                        <button class="card-button" onclick="openPaymentModal('HTML & CSS', 300)">اشترك
+                                            في الكورس</button>
+                                        <button class="card-button secondary" onclick="openCodeModal()">أدخل كود
+                                            الكورس</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-content">
-                                <h3>تطوير واجهات الويب الأساسية</h3>
-                                <p>تعلم أساسيات تطوير واجهات الويب باستخدام HTML و CSS.</p>
-                                <button class="card-button" onclick="alert('اشترك في HTML/CSS')">اشترك الآن</button>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-img">
-                                <i class="fab fa-js"></i>
-                            </div>
-                            <div class="card-content">
-                                <h3>برمجة JavaScript التفاعلية</h3>
-                                <p>أتقن لغة JavaScript لإضافة التفاعل إلى مواقع الويب.</p>
-                                <button class="card-button" onclick="alert('اشترك في JavaScript')">اشترك الآن</button>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-img">
-                                <i class="fab fa-react"></i>
-                            </div>
-                            <div class="card-content">
-                                <h3>بناء تطبيقات React المتقدمة</h3>
-                                <p>تعلم React لبناء واجهات مستخدم قوية وفعالة.</p>
-                                <button class="card-button" onclick="alert('اشترك في React JS')">اشترك الآن</button>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-img">
-                                <i class="fab fa-css3-alt"></i>
-                            </div>
-                            <div class="card-content">
-                                <h3>تصميم سريع باستخدام Tailwind</h3>
-                                <p>استخدم إطار عمل Tailwind CSS لتنسيق مواقع الويب.</p>
-                                <button class="card-button" onclick="alert('اشترك في Tailwind CSS')">اشترك الآن</button>
-                            </div>
-                        </div>
 
-                        <div class="card">
-                            <div class="card-img">
-                                <i class="fab fa-html5"></i>
+                            <!-- JavaScript Course -->
+                            <div class="card">
+                                <div class="card-img">JavaScript</div>
+                                <div class="card-content">
+                                    <h3>برمجة JavaScript التفاعلية</h3>
+                                    <p>أتقن لغة JavaScript لإضافة التفاعل إلى مواقع الويب.</p>
+                                    <div class="card-buttons">
+                                        <button class="card-button" onclick="openPaymentModal('JavaScript', 400)">اشترك
+                                            في الكورس</button>
+                                        <button class="card-button secondary" onclick="openCodeModal()">أدخل كود
+                                            الكورس</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-content">
-                                <h3>تطوير واجهات الويب الأساسية (مكرر)</h3>
-                                <p>تعلم أساسيات تطوير واجهات الويب باستخدام HTML و CSS.</p>
-                                <button class="card-button" onclick="alert('اشترك في HTML/CSS')">اشترك الآن</button>
+
+                            <!-- React Course -->
+                            <div class="card">
+                                <div class="card-img">React JS</div>
+                                <div class="card-content">
+                                    <h3>بناء تطبيقات React المتقدمة</h3>
+                                    <p>تعلم React لبناء واجهات مستخدم قوية وفعالة.</p>
+                                    <div class="card-buttons">
+                                        <button class="card-button" onclick="openPaymentModal('React JS', 500)">اشترك في
+                                            الكورس</button>
+                                        <button class="card-button secondary" onclick="openCodeModal()">أدخل كود
+                                            الكورس</button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-img">
-                                <i class="fab fa-js"></i>
+
+                            <!-- Tailwind Course -->
+                            <div class="card">
+                                <div class="card-img">Tailwind CSS</div>
+                                <div class="card-content">
+                                    <h3>تصميم سريع باستخدام Tailwind</h3>
+                                    <p>استخدم إطار عمل Tailwind CSS لتنسيق مواقع الويب.</p>
+                                    <div class="card-buttons">
+                                        <button class="card-button"
+                                            onclick="openPaymentModal('Tailwind CSS', 350)">اشترك في الكورس</button>
+                                        <button class="card-button secondary" onclick="openCodeModal()">أدخل كود
+                                            الكورس</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-content">
-                                <h3>برمجة JavaScript التفاعلية (مكرر)</h3>
-                                <p>أتقن لغة JavaScript لإضافة التفاعل إلى مواقع الويب.</p>
-                                <button class="card-button" onclick="alert('اشترك في JavaScript')">اشترك الآن</button>
+
+                            <!-- Duplicate cards for scrolling effect -->
+                            <div class="card">
+                                <div class="card-img">HTML & CSS</div>
+                                <div class="card-content">
+                                    <h3>تطوير واجهات الويب الأساسية (مكرر)</h3>
+                                    <p>تعلم أساسيات تطوير واجهات الويب باستخدام HTML و CSS.</p>
+                                    <div class="card-buttons">
+                                        <button class="card-button" onclick="openPaymentModal('HTML & CSS', 300)">اشترك
+                                            في الكورس</button>
+                                        <button class="card-button secondary" onclick="openCodeModal()">أدخل كود
+                                            الكورس</button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-img">
-                                <i class="fab fa-react"></i>
-                            </div>
-                            <div class="card-content">
-                                <h3>بناء تطبيقات React المتقدمة (مكرر)</h3>
-                                <p>تعلم React لبناء واجهات مستخدم قوية وفعالة.</p>
-                                <button class="card-button" onclick="alert('اشترك في React JS')">اشترك الآن</button>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-img">
-                                <i class="fab fa-css3-alt"></i>
-                            </div>
-                            <div class="card-content">
-                                <h3>تصميم سريع باستخدام Tailwind (مكرر)</h3>
-                                <p>استخدم إطار عمل Tailwind CSS لتنسيق مواقع الويب.</p>
-                                <button class="card-button" onclick="alert('اشترك في Tailwind CSS')">اشترك الآن</button>
+
+                            <div class="card">
+                                <div class="card-img">JavaScript</div>
+                                <div class="card-content">
+                                    <h3>برمجة JavaScript التفاعلية (مكرر)</h3>
+                                    <p>أتقن لغة JavaScript لإضافة التفاعل إلى مواقع الويب.</p>
+                                    <div class="card-buttons">
+                                        <button class="card-button" onclick="openPaymentModal('JavaScript', 400)">اشترك
+                                            في الكورس</button>
+                                        <button class="card-button secondary" onclick="openCodeModal()">أدخل كود
+                                            الكورس</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1170,158 +1231,20 @@
             <div class="container">
                 <h2 class="section-title">لماذا تختار منصتنا؟</h2>
                 <div class="features-container">
-                    <div class="card feature-card">
+                    <div class="feature-card">
                         <i class="fas fa-graduation-cap feature-icon"></i>
                         <h3>مدربون محترفون</h3>
                         <p>تعلم من أفضل المدربين ذوي الخبرة الواسعة في مجال البرمجة.</p>
                     </div>
-                    <div class="card feature-card">
+                    <div class="feature-card">
                         <i class="fas fa-laptop-code feature-icon"></i>
                         <h3>مشاريع عملية</h3>
                         <p>طبق ما تتعلمه من خلال مشاريع عملية حقيقية تبني بها ملفك الشخصي.</p>
                     </div>
-                    <div class="card feature-card">
+                    <div class="feature-card">
                         <i class="fas fa-headset feature-icon"></i>
                         <h3>دعم فني متواصل</h3>
                         <p>فريق الدعم الفني متاح على مدار الساعة لمساعدتك.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <div id="english-content" class="content-en">
-        <section class="hero">
-            <div class="container">
-                <h1>Start Your Journey in the World of Coding</h1>
-                <p>Learn programming from scratch to expert level with the best instructors.</p>
-                <button class="cta-button" onclick="alert('Start Learning')">Start Learning Now</button>
-            </div>
-        </section>
-
-        <section class="courses">
-            <div class="container">
-                <h2 class="section-title">Available Courses</h2>
-                <div class="courses-container">
-                    <div class="cards-container">
-                        <div class="card">
-                            <div class="card-img">
-                                <i class="fab fa-html5"></i>
-                            </div>
-                            <div class="card-content">
-                                <h3>Essential Web Interface Dev</h3>
-                                <p>Learn the basics of front-end development using HTML and CSS.</p>
-                                <button class="card-button" onclick="alert('Enroll in HTML/CSS')">Enroll Now</button>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-img">
-                                <i class="fab fa-js"></i>
-                            </div>
-                            <div class="card-content">
-                                <h3>Interactive JavaScript Prog.</h3>
-                                <p>Master JavaScript to add interactivity to websites.</p>
-                                <button class="card-button" onclick="alert('Enroll in JavaScript')">Enroll Now</button>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-img">
-                                <i class="fab fa-react"></i>
-                            </div>
-                            <div class="card-content">
-                                <h3>Building Advanced React Apps</h3>
-                                <p>Learn React to build powerful and efficient user interfaces.</p>
-                                <button class="card-button" onclick="alert('Enroll in React JS')">Enroll Now</button>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-img">
-                                <i class="fab fa-css3-alt"></i>
-                            </div>
-                            <div class="card-content">
-                                <h3>Rapid Design with Tailwind</h3>
-                                <p>Use the Tailwind CSS framework to style websites quickly.</p>
-                                <button class="card-button" onclick="alert('Enroll in Tailwind CSS')">Enroll
-                                    Now</button>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-img">
-                                <i class="fab fa-html5"></i>
-                            </div>
-                            <div class="card-content">
-                                <h3>Essential Web Interface Dev (Dupl)</h3>
-                                <p>Learn the basics of front-end development using HTML and CSS.</p>
-                                <button class="card-button" onclick="alert('Enroll in HTML/CSS')">Enroll Now</button>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-img">
-                                <i class="fab fa-js"></i>
-                            </div>
-                            <div class="card-content">
-                                <h3>Interactive JavaScript Prog. (Dupl)</h3>
-                                <p>Master JavaScript to add interactivity to websites.</p>
-                                <button class="card-button" onclick="alert('Enroll in JavaScript')">Enroll Now</button>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-img">
-                                <i class="fab fa-react"></i>
-                            </div>
-                            <div class="card-content">
-                                <h3>Building Advanced React Apps (Dupl)</h3>
-                                <p>Learn React to build powerful and efficient user interfaces.</p>
-                                <button class="card-button" onclick="alert('Enroll in React JS')">Enroll Now</button>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-img">
-                                <i class="fab fa-css3-alt"></i>
-                            </div>
-                            <div class="card-content">
-                                <h3>Rapid Design with Tailwind (Dupl)</h3>
-                                <p>Use the Tailwind CSS framework to style websites quickly.</p>
-                                <button class="card-button" onclick="alert('Enroll in Tailwind CSS')">Enroll
-                                    Now</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="video-section">
-            <div class="container">
-                <h2 class="section-title">How to Register on the Platform</h2>
-                <div class="video-container">
-                    <div class="video-placeholder" onclick="alert('The instructional video will start playing')">
-                        <i class="fas fa-play-circle play-button"></i>
-                    </div>
-                </div>
-                <p>Watch this video to learn how to register on the platform.</p>
-            </div>
-        </section>
-
-        <section class="features">
-            <div class="container">
-                <h2 class="section-title">Why Choose Our Platform?</h2>
-                <div class="features-container">
-                    <div class="card feature-card">
-                        <i class="fas fa-graduation-cap feature-icon"></i>
-                        <h3>Professional Instructors</h3>
-                        <p>Learn from the best instructors with extensive experience.</p>
-                    </div>
-                    <div class="card feature-card">
-                        <i class="fas fa-laptop-code feature-icon"></i>
-                        <h3>Practical Projects</h3>
-                        <p>Apply what you learn through real practical projects.</p>
-                    </div>
-                    <div class="card feature-card">
-                        <i class="fas fa-headset feature-icon"></i>
-                        <h3>Continuous Tech Support</h3>
-                        <p>Our technical support team is available around the clock.</p>
                     </div>
                 </div>
             </div>
@@ -1356,35 +1279,8 @@
                 </div>
             </div>
 
-            <div id="footer-en" class="footer-content content-en">
-                <div class="footer-section">
-                    <h3>Contact Us</h3>
-                    <p><i class="fas fa-map-marker-alt"></i> Address: Cairo, Egypt</p>
-                    <p><i class="fas fa-envelope"></i> Email: info@lam3code.com</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <a href="#">Home</a>
-                    <a href="#">Courses</a>
-                    <a href="#">Blog</a>
-                </div>
-                <div class="footer-section">
-                    <h3>Technical Support</h3>
-                    <p>We are here to help you around the clock.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Follow Us</h3>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-            </div>
-
             <div class="footer-bottom">
                 <p class="content-ar active-content">جميع الحقوق محفوظة &copy; 2023 Lam3Code</p>
-                <p class="content-en">All Rights Reserved &copy; 2023 Lam3Code</p>
             </div>
         </div>
     </footer>
@@ -1527,9 +1423,8 @@
             };
         };
 
-
         // =======================================================
-        // GooeyNav Logic (Transformed from React to Vanilla JS)
+        // GooeyNav Logic
         // =======================================================
         const GooeyNavLogic = () => {
             const container = document.getElementById('gooey-nav-wrapper');
@@ -1546,7 +1441,7 @@
             const timeVariance = 300;
             const colors = [1, 2, 3, 1, 2, 3, 1, 4];
 
-            let activeIndex = 0; // Index of the currently active link (for all links)
+            let activeIndex = 0;
 
             const noise = (n = 1) => n / 2 - Math.random() * n;
             const getXY = (distance, pointIndex, totalPoints) => {
@@ -1616,9 +1511,7 @@
             const updateEffectPosition = element => {
                 if (!element || !container || !filterEffect || !textEffect) return;
 
-                // للحصول على موقع الـ GooeyNav
                 const containerRect = container.getBoundingClientRect();
-                // للحصول على موقع الـ A tag
                 const pos = element.getBoundingClientRect();
 
                 const styles = {
@@ -1639,7 +1532,6 @@
                 const listItem = currentLink.closest('.nav-item');
                 if (index === activeIndex) return;
 
-                // تحديث الـ activeIndex
                 const prevActiveLink = container.querySelector('.nav-item.active');
                 if (prevActiveLink) prevActiveLink.classList.remove('active');
                 listItem.classList.add('active');
@@ -1647,20 +1539,16 @@
 
                 updateEffectPosition(currentLink);
 
-                // حركة النص
                 if (textEffect) {
                     textEffect.classList.remove('active');
-                    void textEffect.offsetWidth; // Force reflow
+                    void textEffect.offsetWidth;
                     textEffect.classList.add('active');
                 }
 
-                // حركة الجسيمات
                 if (filterEffect) makeParticles(filterEffect);
             };
 
-            // تهيئة: تعيين الموضع الأولي بناءً على اللغة الافتراضية
             const setupInitialPosition = () => {
-                // نجد العنصر النشط للعربية أولاً
                 let initialActiveLink = container.querySelector('.nav-item.active.active-content a');
 
                 if (initialActiveLink) {
@@ -1671,7 +1559,6 @@
                 }
             };
 
-            // ربط الأحداث
             const attachListeners = () => {
                 const allLinks = container.querySelectorAll('.nav-item a');
                 allLinks.forEach((link, index) => {
@@ -1679,9 +1566,7 @@
                 });
             };
 
-            // تحديث الموضع عند تغيير حجم الشاشة أو تغيير اللغة
             const updateLayout = () => {
-                // العثور على الـ active index الحالي
                 const allLinks = Array.from(container.querySelectorAll('.nav-item a'));
                 const currentActiveLink = container.querySelector('.nav-item.active a');
                 if (currentActiveLink) {
@@ -1690,12 +1575,10 @@
                 }
             };
 
-            // تنفيذ التهيئة
             attachListeners();
             setupInitialPosition();
             window.addEventListener('resize', updateLayout);
 
-            // إرجاع وظيفة التحديث ليتم استخدامها في تبديل اللغة
             return updateLayout;
         };
 
@@ -1707,9 +1590,6 @@
             const mobileNav = document.getElementById('mobile-nav');
             const overlay = document.getElementById('overlay');
             const mobileLanguageSwitcher = document.getElementById('mobile-language-switcher');
-            const mobileNavLinks = mobileNav.querySelectorAll('.nav-item a');
-
-            let mobileActiveIndex = 0;
 
             const toggleMobileMenu = () => {
                 mobileNav.classList.toggle('active');
@@ -1717,26 +1597,8 @@
                 document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
             };
 
-            const handleMobileLinkClick = (e, index) => {
-                e.preventDefault();
-                const listItem = e.currentTarget.closest('.nav-item');
-
-                // تحديث الـ activeIndex
-                const prevActiveLink = mobileNav.querySelector('.nav-item.active');
-                if (prevActiveLink) prevActiveLink.classList.remove('active');
-                listItem.classList.add('active');
-                mobileActiveIndex = index;
-
-                toggleMobileMenu();
-            };
-
-            // ربط الأحداث
             mobileMenuToggle.addEventListener('click', toggleMobileMenu);
             overlay.addEventListener('click', toggleMobileMenu);
-
-            mobileNavLinks.forEach((link, index) => {
-                link.addEventListener('click', (e) => handleMobileLinkClick(e, index));
-            });
 
             mobileLanguageSwitcher.addEventListener('click', () => {
                 switchLanguage();
@@ -1764,7 +1626,6 @@
             const enElements = document.querySelectorAll('.content-en');
             const navItems = document.querySelectorAll('.nav-item');
 
-            // إظهار وإخفاء محتوى اللغة
             if (newLang === 'ar') {
                 arElements.forEach(el => el.classList.add('active-content'));
                 enElements.forEach(el => el.classList.remove('active-content'));
@@ -1773,7 +1634,6 @@
                 enElements.forEach(el => el.classList.add('active-content'));
             }
 
-            // تحديث العنصر النشط في GooeyNav
             let activeElement;
             if (newLang === 'ar') {
                 activeElement = document.querySelector('.nav-item.content-ar a[data-text="الرئيسية"]');
@@ -1781,18 +1641,130 @@
                 activeElement = document.querySelector('.nav-item.content-en a[data-text="Home"]');
             }
 
-            // إزالة حالة active من كل العناصر أولاً
             navItems.forEach(item => item.classList.remove('active'));
 
             if (activeElement) {
-                // تعيين active على العنصر الجديد
                 activeElement.closest('.nav-item').classList.add('active');
-
-                // تحديث موضع شريط GooeyNav
                 if (window.updateGooeyLayout) {
                     window.updateGooeyLayout();
                 }
             }
+        };
+
+        // =======================================================
+        // Modal Functions
+        // =======================================================
+        let currentCourse = '';
+
+        function openPaymentModal(courseName, price) {
+            currentCourse = courseName;
+            document.getElementById('courseAmount').textContent = price + ' جنيه';
+            document.getElementById('paymentModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.remove('active');
+            document.body.style.overflow = '';
+            if (currentCourse) {
+                alert('شكراً لك! سيتم تفعيل الكورس: ' + currentCourse + ' خلال 24 ساعة بعد التحقق من الدفع.');
+                currentCourse = '';
+            }
+        }
+
+        function openCodeModal() {
+            document.getElementById('codeModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('courseCode').focus();
+        }
+
+        function closeCodeModal() {
+            document.getElementById('codeModal').classList.remove('active');
+            document.body.style.overflow = '';
+            document.getElementById('courseCode').value = '';
+        }
+
+        function validateCode() {
+            const code = document.getElementById('courseCode').value.trim();
+            if (code === '') {
+                alert('يرجى إدخال كود الكورس');
+                return;
+            }
+
+            if (code.length >= 6) {
+                alert('تم تفعيل الكود بنجاح! يمكنك الآن الوصول إلى محتوى الكورس.');
+                closeCodeModal();
+            } else {
+                alert('كود غير صحيح. يرجى التحقق من الكود والمحاولة مرة أخرى.');
+            }
+        }
+
+        // Close modals when clicking outside
+        document.getElementById('paymentModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closePaymentModal();
+            }
+        });
+
+        document.getElementById('codeModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeCodeModal();
+            }
+        });
+
+        // Close modals with escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closePaymentModal();
+                closeCodeModal();
+            }
+        });
+
+        // Close modal buttons
+        document.getElementById('closePaymentModal').addEventListener('click', closePaymentModal);
+        document.getElementById('closeCodeModal').addEventListener('click', closeCodeModal);
+
+        // =======================================================
+        // Cards Dragging Logic
+        // =======================================================
+        const setupCardsDragging = () => {
+            const container = document.getElementById('cardsContainer');
+            if (!container) return;
+
+            let isDragging = false;
+            let startX;
+            let scrollLeft;
+
+            const handleMouseDown = (e) => {
+                isDragging = true;
+                container.classList.add('grabbing');
+                startX = e.pageX - container.offsetLeft;
+                scrollLeft = container.scrollLeft;
+            };
+
+            const handleMouseLeave = () => {
+                isDragging = false;
+                container.classList.remove('grabbing');
+            };
+
+            const handleMouseUp = () => {
+                isDragging = false;
+                container.classList.remove('grabbing');
+            };
+
+            const handleMouseMove = (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const x = e.pageX - container.offsetLeft;
+                const walk = (x - startX) * 2;
+                container.scrollLeft = scrollLeft - walk;
+            };
+
+            // Event listeners
+            container.addEventListener('mousedown', handleMouseDown);
+            container.addEventListener('mouseleave', handleMouseLeave);
+            container.addEventListener('mouseup', handleMouseUp);
+            container.addEventListener('mousemove', handleMouseMove);
         };
 
         // =======================================================
@@ -1802,7 +1774,7 @@
             // 1. تشغيل خلفية Glitch
             setupGlitchCanvas();
 
-            // 2. تشغيل منطق GooeyNav وتخزين دالة التحديث
+            // 2. تشغيل منطق GooeyNav
             window.updateGooeyLayout = GooeyNavLogic();
 
             // 3. إعداد التنقل للهواتف
@@ -1810,6 +1782,9 @@
 
             // 4. ربط تبديل اللغة
             document.getElementById('language-switcher').addEventListener('click', switchLanguage);
+
+            // 5. إعداد خاصية السحب للكروت
+            setupCardsDragging();
         });
     </script>
 </body>
