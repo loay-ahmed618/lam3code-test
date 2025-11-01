@@ -1,0 +1,2403 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lam3Code | منصة تعلم البرمجة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ==========================
+           1. Global Styles & Dark Theme
+           ========================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #61dca3;
+            --accent-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --dark-bg: #000;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --text-color: #ecf0f1;
+            --modal-bg: rgba(0, 0, 0, 0.95);
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Glitch Background */
+        #glitch-background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        #glitch-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .outer-vignette {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 1) 100%);
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Content Sections */
+        .hero,
+        .courses,
+        .video-section,
+        .features,
+        .faq-section,
+        footer {
+            background-color: rgba(0, 0, 0, 0.75);
+            padding: 60px 0;
+            margin-bottom: 20px;
+            border-top: 1px solid rgba(52, 152, 219, 0.1);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--secondary-color);
+            z-index: 1003;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 0 15px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.8), rgba(44, 62, 80, 0.8));
+            padding: 100px 0 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            padding: 0 15px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            background-color: var(--secondary-color);
+            color: #000;
+            border: none;
+            padding: 15px 35px;
+            font-size: 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background-color: #4ecf91;
+            transform: translateY(-3px);
+        }
+
+        /* ==========================
+           2. Navigation
+           ========================== */
+
+        .main-nav-wrapper {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .auth-buttons button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .auth-buttons button:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        #language-switcher {
+            background-color: var(--primary-color);
+        }
+
+        #language-switcher:hover {
+            background-color: #2980b9;
+        }
+
+        /* GooeyNav Styles */
+        .gooey-nav-container {
+            display: inline-block;
+            position: relative;
+            border-radius: 8px;
+            filter: url(#goo);
+            --color-1: #3498db;
+            --color-2: #e74c3c;
+            --color-3: #61dca3;
+            --color-4: #f1c40f;
+            transition: all 0.3s;
+        }
+
+        .gooey-nav-container nav {
+            position: relative;
+            z-index: 10;
+            padding: 8px 10px;
+            background-color: rgba(44, 62, 80, 0.9);
+            border-radius: 8px;
+        }
+
+        .gooey-nav-container .nav-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .gooey-nav-container li a {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 8px;
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            position: relative;
+            z-index: 20;
+            font-size: 15px;
+        }
+
+        .gooey-nav-container li.active a {
+            color: #61dca3;
+        }
+
+        .gooey-nav-container .effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-radius: 8px;
+            transition: all var(--time, 600ms) cubic-bezier(0.7, -0.5, 0.3, 1.5);
+            pointer-events: none;
+        }
+
+        .gooey-nav-container .effect.filter {
+            background-color: #3498db;
+            z-index: 5;
+            will-change: transform;
+        }
+
+        .gooey-nav-container .effect.text {
+            z-index: 2;
+            overflow: hidden;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .gooey-nav-container .effect.text::after {
+            content: attr(data-text);
+            color: #fff;
+            font-weight: 600;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 0;
+            transform: translateY(100%);
+            transition: all var(--time, 600ms) cubic-bezier(0.7, -0.5, 0.3, 1.5);
+        }
+
+        .gooey-nav-container .effect.text.active::after {
+            transform: translateY(0%);
+        }
+
+        .gooey-nav-container .particle {
+            --start-x: 0px;
+            --start-y: 0px;
+            --end-x: 0px;
+            --end-y: 0px;
+            --time: 600ms;
+            --scale: 1;
+            --color: white;
+            --rotate: 0deg;
+
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .gooey-nav-container .particle .point {
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--color);
+            border-radius: 50%;
+            transform: translate(var(--start-x), var(--start-y)) scale(var(--scale)) rotate(var(--rotate));
+            opacity: 1;
+            transition: all var(--time) cubic-bezier(0.2, 1, 0.5, 1);
+            will-change: transform, opacity;
+        }
+
+        .gooey-nav-container .filter.active .particle .point {
+            transform: translate(var(--end-x), var(--end-y)) scale(0) rotate(var(--rotate));
+            opacity: 0;
+        }
+
+        /* ==========================
+           3. Improved Courses Section
+           ========================== */
+        .courses {
+            padding: 50px 0;
+            position: relative;
+        }
+
+        .courses-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .cards-loop-container {
+            position: relative;
+            width: 100%;
+            padding: 20px 0;
+            overflow-x: auto;
+            cursor: grab;
+        }
+
+        .cards-loop-container:active {
+            cursor: grabbing;
+        }
+
+        .cards-track {
+            display: flex;
+            gap: 30px;
+            padding: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+            min-width: 300px;
+            flex-shrink: 0;
+            padding: 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.3);
+        }
+
+        .card-img {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-content h3 {
+            color: var(--primary-color);
+            font-size: 20px;
+            margin-bottom: 12px;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-content p {
+            color: #bdc3c7;
+            margin-bottom: 20px;
+            font-size: 15px;
+            line-height: 1.5;
+            min-height: 72px;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-rating {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .rating-stars {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            direction: ltr;
+        }
+
+        .star {
+            font-size: 18px;
+            color: #555;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .star.active {
+            color: var(--warning-color);
+        }
+
+        .star:hover {
+            color: var(--warning-color);
+        }
+
+        .rating-text {
+            font-size: 14px;
+            color: #bdc3c7;
+            text-align: center;
+        }
+
+        .card-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .card-button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .card-button:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .card-button.secondary {
+            background-color: var(--primary-color);
+        }
+
+        .card-button.secondary:hover {
+            background-color: #2980b9;
+        }
+
+        /* Scrollbar Styling */
+        .cards-loop-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .cards-loop-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .cards-loop-container::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        .cards-loop-container::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+
+        .feature-icon {
+            color: var(--secondary-color);
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        /* ==========================
+           4. Mobile Navigation
+           ========================== */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1003;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 280px;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 1002;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            padding: 80px 20px 20px;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .mobile-nav-links li {
+            margin-bottom: 15px;
+        }
+
+        .mobile-nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .mobile-nav-links a:hover {
+            background-color: rgba(52, 152, 219, 0.2);
+        }
+
+        .mobile-auth-buttons {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mobile-auth-buttons button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .mobile-language-switcher {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .mobile-language-switcher button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ==========================
+           5. Modal Styles
+           ========================== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-bg);
+            z-index: 2000;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal-title {
+            color: var(--primary-color);
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .modal-text {
+            color: #bdc3c7;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .payment-info {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .payment-number {
+            font-size: 24px;
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .payment-amount {
+            font-size: 20px;
+            color: var(--warning-color);
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .payment-method {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .payment-method:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-method.active {
+            border-color: var(--secondary-color);
+        }
+
+        .code-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            font-size: 16px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .modal-button {
+            background-color: var(--secondary-color);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .modal-button:hover {
+            background-color: #4ecf91;
+            transform: translateY(-2px);
+        }
+
+        .modal-button.secondary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .modal-button.secondary:hover {
+            background-color: #2980b9;
+        }
+
+        /* ==========================
+           6. Video Section
+           ========================== */
+        .video-section {
+            padding: 50px 0;
+        }
+
+        .video-container {
+            position: relative;
+            width: 90%;
+            max-width: 960px;
+            margin: 30px auto;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background-color: #2c3e50;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .video-placeholder .fa-play-circle {
+            font-size: 80px;
+            color: #3498db;
+            transition: color 0.3s;
+        }
+
+        .video-section p {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #bdc3c7;
+        }
+
+        /* ==========================
+           7. Features Section
+           ========================== */
+        .features {
+            padding: 50px 0;
+        }
+
+        .features-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+            min-width: 300px;
+            flex: 1;
+            padding: 25px 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.3);
+        }
+
+        .feature-card h3 {
+            color: var(--primary-color);
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #bdc3c7;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* ==========================
+           8. FAQ Section
+           ========================== */
+        .faq-section {
+            padding: 50px 0;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .faq-question {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .faq-question:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-question h3 {
+            color: var(--primary-color);
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .faq-question i {
+            color: var(--secondary-color);
+            transition: transform 0.3s;
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 20px 20px;
+            max-height: 500px;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* ==========================
+           9. Notification System
+           ========================== */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 3000;
+            max-width: 350px;
+        }
+
+        .notification {
+            background: var(--card-bg);
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.error {
+            border-left-color: var(--accent-color);
+        }
+
+        .notification.warning {
+            border-left-color: var(--warning-color);
+        }
+
+        .notification.info {
+            border-left-color: var(--primary-color);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        /* ==========================
+           10. Footer
+           ========================== */
+        footer {
+            padding: 50px 0 20px;
+            background-color: rgba(0, 0, 0, 0.9);
+            margin-bottom: 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+        }
+
+        .footer-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .footer-section p {
+            color: #bdc3c7;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-section a {
+            display: block;
+            color: #ecf0f1;
+            text-decoration: none;
+            margin-bottom: 5px;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            margin-left: 10px;
+            font-size: 20px;
+            color: #61dca3;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        /* ==========================
+           11. Responsive Styles
+           ========================== */
+
+        @media (max-width: 1024px) {
+            .gooey-nav-container {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .auth-buttons {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .hero,
+            .courses,
+            .video-section,
+            .features,
+            .faq-section,
+            footer {
+                padding: 40px 0;
+            }
+
+            .hero {
+                padding: 80px 0 60px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .card {
+                min-width: 280px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+            }
+
+            .footer-section {
+                margin: 15px 0;
+            }
+
+            .notification-container {
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 24px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .cta-button {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+
+            .card {
+                min-width: 260px;
+            }
+
+            .video-placeholder .fa-play-circle {
+                font-size: 60px;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body id="body-content" lang="ar" dir="rtl">
+
+    <svg style="position: absolute; width: 0; height: 0;">
+        <defs>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10"
+                    result="goo" />
+                <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+            </filter>
+        </defs>
+    </svg>
+
+    <div id="glitch-background-container">
+        <canvas id="glitch-canvas"></canvas>
+        <div class="outer-vignette"></div>
+    </div>
+
+    <!-- Notification Container -->
+    <div class="notification-container" id="notification-container"></div>
+
+    <!-- Mobile Navigation -->
+    <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="mobile-nav" id="mobile-nav">
+        <div class="mobile-nav-content">
+            <ul class="mobile-nav-links">
+                <li class="nav-item active"><a href="#" data-text="الرئيسية">الرئيسية</a></li>
+                <li class="nav-item"><a href="#" data-text="الكورسات">الكورسات</a></li>
+                <li class="nav-item"><a href="#" data-text="المدونة">المدونة</a></li>
+                <li class="nav-item"><a href="#" data-text="اتصل بنا">اتصل بنا</a></li>
+            </ul>
+
+            <div class="mobile-auth-buttons">
+                <button onclick="openLoginModal()">تسجيل الدخول</button>
+                <button onclick="openSignupModal()">إنشاء حساب</button>
+            </div>
+
+            <div class="mobile-language-switcher">
+                <button id="mobile-language-switcher">English</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="main-nav-wrapper">
+        <div class="container nav-container">
+            <div class="logo">Lam3Code</div>
+
+            <div id="gooey-nav-wrapper" class="gooey-nav-container">
+                <nav>
+                    <ul class="nav-links">
+                        <li class="nav-item active"><a href="#" data-text="الرئيسية">الرئيسية</a></li>
+                        <li class="nav-item"><a href="#" data-text="الكورسات">الكورسات</a></li>
+                        <li class="nav-item"><a href="#" data-text="المدونة">المدونة</a></li>
+                        <li class="nav-item"><a href="#" data-text="اتصل بنا">اتصل بنا</a></li>
+                    </ul>
+                </nav>
+                <span class="effect filter" id="filter-effect"></span>
+                <span class="effect text active" id="text-effect" data-text="الرئيسية"></span>
+            </div>
+
+            <div class="auth-buttons">
+                <button onclick="openLoginModal()">تسجيل الدخول</button>
+                <button onclick="openSignupModal()">إنشاء حساب</button>
+                <button id="language-switcher">English</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Rating Modal -->
+    <div class="modal" id="ratingModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeRatingModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <h2 class="modal-title" id="ratingModalTitle">قيم هذا الكورس</h2>
+            <p class="modal-text">كيف تقيم تجربتك مع هذا الكورس؟</p>
+
+            <div class="rating-stars-modal">
+                <div class="stars-container">
+                    <span class="star-modal" data-rating="1">★</span>
+                    <span class="star-modal" data-rating="2">★</span>
+                    <span class="star-modal" data-rating="3">★</span>
+                    <span class="star-modal" data-rating="4">★</span>
+                    <span class="star-modal" data-rating="5">★</span>
+                </div>
+                <div class="rating-text-modal" id="ratingText">اختر تقييمك</div>
+            </div>
+
+            <button class="modal-button" onclick="submitRating()">
+                <i class="fas fa-check"></i> تأكيد التقييم
+            </button>
+            <button class="modal-button secondary" onclick="closeRatingModal()">
+                <i class="fas fa-times"></i> إلغاء
+            </button>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closePaymentModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-icon">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <h2 class="modal-title">الدفع عبر فودافون كاش</h2>
+            <p class="modal-text">للاستفادة من الكورس، يرجى التحويل إلى الرقم التالي:</p>
+
+            <div class="payment-info">
+                <p>رقم فودافون كاش:</p>
+                <div class="payment-number">01091877231</div>
+                <p>المبلغ المطلوب:</p>
+                <div class="payment-amount" id="courseAmount">500 جنيه</div>
+            </div>
+
+            <p class="modal-text">بعد التحويل، سيصلك رسالة تأكيد خلال 24 ساعة</p>
+
+            <button class="modal-button" onclick="closePaymentModal()">
+                <i class="fas fa-check"></i> تم الدفع
+            </button>
+            <button class="modal-button secondary" onclick="closePaymentModal()">
+                <i class="fas fa-times"></i> إلغاء
+            </button>
+        </div>
+    </div>
+
+    <!-- Code Entry Modal -->
+    <div class="modal" id="codeModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeCodeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-icon">
+                <i class="fas fa-key"></i>
+            </div>
+            <h2 class="modal-title">أدخل كود الكورس</h2>
+            <p class="modal-text">إذا كان لديك كود خاص للكورس، أدخله هنا:</p>
+
+            <input type="text" class="code-input" id="courseCode" placeholder="أدخل الكود هنا..." maxlength="20">
+
+            <button class="modal-button" onclick="validateCode()">
+                <i class="fas fa-unlock"></i> تفعيل الكود
+            </button>
+            <button class="modal-button secondary" onclick="closeCodeModal()">
+                <i class="fas fa-times"></i> إلغاء
+            </button>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeLoginModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <h2 class="modal-title">تسجيل الدخول</h2>
+
+            <div class="form-group">
+                <label class="form-label">اسم المستخدم أو البريد الإلكتروني</label>
+                <input type="text" class="form-input" id="loginUsername"
+                    placeholder="أدخل اسم المستخدم أو البريد الإلكتروني">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">كلمة المرور</label>
+                <input type="password" class="form-input" id="loginPassword" placeholder="أدخل كلمة المرور">
+            </div>
+
+            <button class="modal-button" onclick="handleLogin()">
+                <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+            </button>
+            <button class="modal-button secondary" onclick="closeLoginModal()">
+                <i class="fas fa-times"></i> إلغاء
+            </button>
+
+            <p class="modal-text" style="margin-top: 20px;">
+                ليس لديك حساب؟ <a href="#" onclick="closeLoginModal(); openSignupModal();"
+                    style="color: var(--secondary-color);">إنشاء حساب جديد</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeSignupModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-icon">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <h2 class="modal-title">إنشاء حساب جديد</h2>
+
+            <div class="form-group">
+                <label class="form-label">الاسم الكامل</label>
+                <input type="text" class="form-input" id="signupFullName" placeholder="أدخل اسمك الكامل">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">البريد الإلكتروني</label>
+                <input type="email" class="form-input" id="signupEmail" placeholder="أدخل بريدك الإلكتروني">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">اسم المستخدم</label>
+                <input type="text" class="form-input" id="signupUsername" placeholder="اختر اسم مستخدم">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">كلمة المرور</label>
+                <input type="password" class="form-input" id="signupPassword" placeholder="اختر كلمة مرور قوية">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">تأكيد كلمة المرور</label>
+                <input type="password" class="form-input" id="signupConfirmPassword"
+                    placeholder="أعد إدخال كلمة المرور">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">رقم الهاتف</label>
+                <input type="tel" class="form-input" id="signupPhone" placeholder="أدخل رقم هاتفك">
+            </div>
+
+            <button class="modal-button" onclick="handleSignup()">
+                <i class="fas fa-user-plus"></i> إنشاء الحساب
+            </button>
+            <button class="modal-button secondary" onclick="closeSignupModal()">
+                <i class="fas fa-times"></i> إلغاء
+            </button>
+
+            <p class="modal-text" style="margin-top: 20px;">
+                لديك حساب بالفعل؟ <a href="#" onclick="closeSignupModal(); openLoginModal();"
+                    style="color: var(--secondary-color);">تسجيل الدخول</a>
+            </p>
+        </div>
+    </div>
+
+    <div id="arabic-content" class="active-content">
+        <section class="hero">
+            <div class="container">
+                <h1>ابدأ رحلتك في عالم البرمجة</h1>
+                <p>تعلم البرمجة من الصفر إلى الاحتراف مع أفضل المدربين ومن خلال مسارات تعليمية شاملة تناسب جميع
+                    المستويات</p>
+                <button class="cta-button" onclick="showNotification('success', 'مرحباً بك في منصة Lam3Code!')">ابدأ التعلم الآن</button>
+            </div>
+        </section>
+
+        <section class="courses">
+            <div class="container">
+                <h2 class="section-title">الكورسات المتاحة</h2>
+                <div class="courses-container">
+                    <div class="cards-loop-container" id="cardsContainer">
+                        <div class="cards-track" id="cardsTrack">
+                            <!-- سيتم إضافة الكروت ديناميكياً -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="video-section">
+            <div class="container">
+                <h2 class="section-title">كيفية التسجيل في المنصة</h2>
+                <div class="video-container">
+                    <div class="video-placeholder" onclick="showNotification('info', 'سيتم تشغيل الفيديو التوضيحي قريباً')">
+                        <i class="fas fa-play-circle play-button"></i>
+                    </div>
+                </div>
+                <p>شاهد هذا الفيديو لتعرف كيفية التسجيل في المنصة والبدء في رحلتك التعليمية</p>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">لماذا تختار منصتنا؟</h2>
+                <div class="features-container">
+                    <div class="feature-card">
+                        <i class="fas fa-graduation-cap feature-icon"></i>
+                        <h3>مدربون محترفون</h3>
+                        <p>تعلم من أفضل المدربين ذوي الخبرة الواسعة في مجال البرمجة.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-laptop-code feature-icon"></i>
+                        <h3>مشاريع عملية</h3>
+                        <p>طبق ما تتعلمه من خلال مشاريع عملية حقيقية تبني بها ملفك الشخصي.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-headset feature-icon"></i>
+                        <h3>دعم فني متواصل</h3>
+                        <p>فريق الدعم الفني متاح على مدار الساعة لمساعدتك.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="container">
+                <h2 class="section-title">الأسئلة الشائعة</h2>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>كيف أبدأ في تعلم البرمجة؟</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>ننصح بالبدء مع كورس HTML & CSS ثم الانتقال إلى JavaScript، حيث أن هذه اللغات تشكل الأساس لأي مبرمج ويب.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>هل أحتاج لخلفية في البرمجة؟</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>لا، جميع الكورسات تبدأ من الصفر ولا تحتاج لأي خلفية مسبقة في البرمجة.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>كم مدة الكورسات؟</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>مدة الكورسات تتراوح بين 4 إلى 8 أسابيع حسب مستوى الكورس ومدى التزامك بالدراسة.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>هل أحصل على شهادة بعد الانتهاء؟</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>نعم، تحصل على شهادة معتمدة من المنصة بعد إتمام كل كورس بنجاح.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>اتصل بنا</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> العنوان: القاهرة، مصر</p>
+                    <p><i class="fas fa-envelope"></i> البريد الإلكتروني: info@lam3code.com</p>
+                </div>
+                <div class="footer-section">
+                    <h3>روابط سريعة</h3>
+                    <a href="#">الرئيسية</a>
+                    <a href="#">الكورسات</a>
+                    <a href="#">المدونة</a>
+                </div>
+                <div class="footer-section">
+                    <h3>الدعم الفني</h3>
+                    <p>نحن هنا لمساعدتك على مدار الساعة</p>
+                </div>
+                <div class="footer-section">
+                    <h3>تابعنا على</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة &copy; 2023 Lam3Code</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // =======================================================
+        // Translation System
+        // =======================================================
+        const translations = {
+            ar: {
+                // Navigation
+                home: "الرئيسية",
+                courses: "الكورسات", 
+                blog: "المدونة",
+                contact: "اتصل بنا",
+                login: "تسجيل الدخول",
+                signup: "إنشاء حساب",
+                language: "English",
+
+                // Hero Section
+                heroTitle: "ابدأ رحلتك في عالم البرمجة",
+                heroDesc: "تعلم البرمجة من الصفر إلى الاحتراف مع أفضل المدربين ومن خلال مسارات تعليمية شاملة تناسب جميع المستويات",
+                ctaButton: "ابدأ التعلم الآن",
+
+                // Courses Section
+                coursesTitle: "الكورسات المتاحة",
+
+                // Video Section
+                videoTitle: "كيفية التسجيل في المنصة", 
+                videoDesc: "شاهد هذا الفيديو لتعرف كيفية التسجيل في المنصة والبدء في رحلتك التعليمية",
+
+                // Features Section
+                featuresTitle: "لماذا تختار منصتنا؟",
+                feature1Title: "مدربون محترفون",
+                feature1Desc: "تعلم من أفضل المدربين ذوي الخبرة الواسعة في مجال البرمجة.",
+                feature2Title: "مشاريع عملية", 
+                feature2Desc: "طبق ما تتعلمه من خلال مشاريع عملية حقيقية تبني بها ملفك الشخصي.",
+                feature3Title: "دعم فني متواصل",
+                feature3Desc: "فريق الدعم الفني متاح على مدار الساعة لمساعدتك.",
+
+                // FAQ Section
+                faqTitle: "الأسئلة الشائعة",
+                faq1Question: "كيف أبدأ في تعلم البرمجة؟",
+                faq1Answer: "ننصح بالبدء مع كورس HTML & CSS ثم الانتقال إلى JavaScript، حيث أن هذه اللغات تشكل الأساس لأي مبرمج ويب.",
+                faq2Question: "هل أحتاج لخلفية في البرمجة؟",
+                faq2Answer: "لا، جميع الكورسات تبدأ من الصفر ولا تحتاج لأي خلفية مسبقة في البرمجة.",
+                faq3Question: "كم مدة الكورسات؟",
+                faq3Answer: "مدة الكورسات تتراوح بين 4 إلى 8 أسابيع حسب مستوى الكورس ومدى التزامك بالدراسة.",
+                faq4Question: "هل أحصل على شهادة بعد الانتهاء؟",
+                faq4Answer: "نعم، تحصل على شهادة معتمدة من المنصة بعد إتمام كل كورس بنجاح.",
+
+                // Footer
+                contactUs: "اتصل بنا",
+                address: "العنوان: القاهرة، مصر",
+                email: "البريد الإلكتروني: info@lam3code.com",
+                quickLinks: "روابط سريعة",
+                support: "الدعم الفني",
+                supportDesc: "نحن هنا لمساعدتك على مدار الساعة",
+                followUs: "تابعنا على",
+                rights: "جميع الحقوق محفوظة © 2023 Lam3Code",
+
+                // Course Cards
+                enrollCourse: "اشترك في الكورس",
+                enterCode: "أدخل كود الكورس",
+                rateCourse: "قيم الكورس",
+                yourRating: "تقييمك",
+                chooseRating: "اختر تقييمك",
+                ratingTexts: ["سيء", "مقبول", "جيد", "جيد جداً", "ممتاز"]
+            },
+            en: {
+                // Navigation
+                home: "Home",
+                courses: "Courses",
+                blog: "Blog", 
+                contact: "Contact Us",
+                login: "Login",
+                signup: "Sign Up",
+                language: "العربية",
+
+                // Hero Section
+                heroTitle: "Start Your Programming Journey",
+                heroDesc: "Learn programming from scratch to professional level with the best instructors and comprehensive educational paths suitable for all levels",
+                ctaButton: "Start Learning Now",
+
+                // Courses Section
+                coursesTitle: "Available Courses",
+
+                // Video Section
+                videoTitle: "How to Register on the Platform", 
+                videoDesc: "Watch this video to learn how to register on the platform and start your educational journey",
+
+                // Features Section
+                featuresTitle: "Why Choose Our Platform?",
+                feature1Title: "Professional Instructors",
+                feature1Desc: "Learn from the best instructors with extensive experience in the field of programming.",
+                feature2Title: "Practical Projects",
+                feature2Desc: "Apply what you learn through real practical projects to build your portfolio.",
+                feature3Title: "24/7 Technical Support", 
+                feature3Desc: "Our technical support team is available around the clock to assist you.",
+
+                // FAQ Section
+                faqTitle: "Frequently Asked Questions",
+                faq1Question: "How do I start learning programming?",
+                faq1Answer: "We recommend starting with the HTML & CSS course then moving to JavaScript, as these languages form the foundation for any web programmer.",
+                faq2Question: "Do I need a background in programming?",
+                faq2Answer: "No, all courses start from scratch and you don't need any prior programming background.",
+                faq3Question: "How long are the courses?",
+                faq3Answer: "Course duration ranges from 4 to 8 weeks depending on the course level and your study commitment.",
+                faq4Question: "Do I get a certificate after completion?",
+                faq4Answer: "Yes, you get a certified certificate from the platform after successfully completing each course.",
+
+                // Footer
+                contactUs: "Contact Us",
+                address: "Address: Cairo, Egypt",
+                email: "Email: info@lam3code.com",
+                quickLinks: "Quick Links",
+                support: "Technical Support",
+                supportDesc: "We are here to help you 24/7",
+                followUs: "Follow Us",
+                rights: "All Rights Reserved © 2023 Lam3Code",
+
+                // Course Cards
+                enrollCourse: "Enroll in Course",
+                enterCode: "Enter Course Code",
+                rateCourse: "Rate Course",
+                yourRating: "Your Rating",
+                chooseRating: "Choose your rating",
+                ratingTexts: ["Poor", "Fair", "Good", "Very Good", "Excellent"]
+            }
+        };
+
+        // =======================================================
+        // Courses Data - بدون Node.js و Python
+        // =======================================================
+        const coursesData = {
+            ar: [
+                { name: 'HTML & CSS', title: 'تطوير واجهات الويب الأساسية', desc: 'تعلم أساسيات تطوير واجهات الويب باستخدام HTML و CSS.', price: 300 },
+                { name: 'JavaScript', title: 'برمجة JavaScript التفاعلية', desc: 'أتقن لغة JavaScript لإضافة التفاعل إلى مواقع الويب.', price: 400 },
+                { name: 'React JS', title: 'بناء تطبيقات React المتقدمة', desc: 'تعلم React لبناء واجهات مستخدم قوية وفعالة.', price: 500 },
+                { name: 'Tailwind CSS', title: 'تصميم سريع باستخدام Tailwind', desc: 'استخدم إطار عمل Tailwind CSS لتنسيق مواقع الويب.', price: 350 },
+                { name: 'Bootstrap', title: 'التصميم المتجاوب مع Bootstrap', desc: 'تعلم استخدام Bootstrap لإنشاء تصاميم ويب متجاوبة وجذابة.', price: 300 }
+            ],
+            en: [
+                { name: 'HTML & CSS', title: 'Web Development Fundamentals', desc: 'Learn the basics of web development using HTML and CSS.', price: 300 },
+                { name: 'JavaScript', title: 'Interactive JavaScript Programming', desc: 'Master JavaScript language to add interactivity to websites.', price: 400 },
+                { name: 'React JS', title: 'Advanced React Applications', desc: 'Learn React to build powerful and efficient user interfaces.', price: 500 },
+                { name: 'Tailwind CSS', title: 'Rapid Design with Tailwind', desc: 'Use Tailwind CSS framework to style websites.', price: 350 },
+                { name: 'Bootstrap', title: 'Responsive Design with Bootstrap', desc: 'Learn to use Bootstrap for creating responsive and attractive web designs.', price: 300 }
+            ]
+        };
+
+        // =======================================================
+        // User Ratings System
+        // =======================================================
+        let userRatings = JSON.parse(localStorage.getItem('userRatings')) || {};
+        let currentRatingCourse = '';
+        let currentUserRating = 0;
+
+        // =======================================================
+        // Scroll System
+        // =======================================================
+        let isDragging = false;
+        let startX;
+        let scrollLeft;
+
+        function setupScroll() {
+            const container = document.getElementById('cardsContainer');
+            if (!container) return;
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.pageX - container.offsetLeft;
+                scrollLeft = container.scrollLeft;
+                container.style.cursor = 'grabbing';
+            });
+
+            container.addEventListener('mouseleave', () => {
+                isDragging = false;
+                container.style.cursor = 'grab';
+            });
+
+            container.addEventListener('mouseup', () => {
+                isDragging = false;
+                container.style.cursor = 'grab';
+            });
+
+            container.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const x = e.pageX - container.offsetLeft;
+                const walk = (x - startX) * 2;
+                container.scrollLeft = scrollLeft - walk;
+            });
+
+            // Touch events for mobile
+            container.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                startX = e.touches[0].pageX - container.offsetLeft;
+                scrollLeft = container.scrollLeft;
+            });
+
+            container.addEventListener('touchend', () => {
+                isDragging = false;
+            });
+
+            container.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const x = e.touches[0].pageX - container.offsetLeft;
+                const walk = (x - startX) * 2;
+                container.scrollLeft = scrollLeft - walk;
+            });
+        }
+
+        // =======================================================
+        // Language Management
+        // =======================================================
+        let currentLanguage = 'ar';
+
+        function switchLanguage() {
+            currentLanguage = currentLanguage === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('preferredLanguage', currentLanguage);
+            updatePageLanguage(currentLanguage);
+        }
+
+        function updatePageLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update HTML attributes
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            
+            // Update all text content
+            updateTextContent(lang);
+            
+            // Update courses
+            updateCourses(lang);
+            
+            // Update language switcher buttons
+            document.getElementById('language-switcher').textContent = translations[lang].language;
+            document.getElementById('mobile-language-switcher').textContent = translations[lang].language;
+        }
+
+        function updateTextContent(lang) {
+            const t = translations[lang];
+            
+            // Navigation
+            document.querySelectorAll('.nav-links a, .mobile-nav-links a').forEach((link, index) => {
+                const texts = [t.home, t.courses, t.blog, t.contact];
+                link.textContent = texts[index];
+                if (link.hasAttribute('data-text')) {
+                    link.setAttribute('data-text', texts[index]);
+                }
+            });
+            
+            // Auth buttons
+            document.querySelectorAll('.auth-buttons button, .mobile-auth-buttons button').forEach((btn, index) => {
+                btn.textContent = index === 0 ? t.login : t.signup;
+            });
+            
+            // Hero section
+            document.querySelector('.hero h1').textContent = t.heroTitle;
+            document.querySelector('.hero p').textContent = t.heroDesc;
+            document.querySelector('.cta-button').textContent = t.ctaButton;
+            
+            // Section titles
+            document.querySelector('.courses .section-title').textContent = t.coursesTitle;
+            document.querySelector('.video-section .section-title').textContent = t.videoTitle;
+            document.querySelector('.features .section-title').textContent = t.featuresTitle;
+            document.querySelector('.video-section p').textContent = t.videoDesc;
+            document.querySelector('.faq-section .section-title').textContent = t.faqTitle;
+            
+            // Features
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards[0].querySelector('h3').textContent = t.feature1Title;
+            featureCards[0].querySelector('p').textContent = t.feature1Desc;
+            featureCards[1].querySelector('h3').textContent = t.feature2Title;
+            featureCards[1].querySelector('p').textContent = t.feature2Desc;
+            featureCards[2].querySelector('h3').textContent = t.feature3Title;
+            featureCards[2].querySelector('p').textContent = t.feature3Desc;
+            
+            // FAQ
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems[0].querySelector('.faq-question h3').textContent = t.faq1Question;
+            faqItems[0].querySelector('.faq-answer p').textContent = t.faq1Answer;
+            faqItems[1].querySelector('.faq-question h3').textContent = t.faq2Question;
+            faqItems[1].querySelector('.faq-answer p').textContent = t.faq2Answer;
+            faqItems[2].querySelector('.faq-question h3').textContent = t.faq3Question;
+            faqItems[2].querySelector('.faq-answer p').textContent = t.faq3Answer;
+            faqItems[3].querySelector('.faq-question h3').textContent = t.faq4Question;
+            faqItems[3].querySelector('.faq-answer p').textContent = t.faq4Answer;
+            
+            // Footer
+            document.querySelectorAll('.footer-section h3')[0].textContent = t.contactUs;
+            document.querySelectorAll('.footer-section p')[0].innerHTML = `<i class="fas fa-map-marker-alt"></i> ${t.address}`;
+            document.querySelectorAll('.footer-section p')[1].innerHTML = `<i class="fas fa-envelope"></i> ${t.email}`;
+            document.querySelectorAll('.footer-section h3')[1].textContent = t.quickLinks;
+            document.querySelectorAll('.footer-section h3')[2].textContent = t.support;
+            document.querySelectorAll('.footer-section p')[2].textContent = t.supportDesc;
+            document.querySelectorAll('.footer-section h3')[3].textContent = t.followUs;
+            document.querySelector('.footer-bottom p').textContent = t.rights;
+        }
+
+        function updateCourses(lang) {
+            const courses = coursesData[lang];
+            const track = document.getElementById('cardsTrack');
+            
+            // Clear existing cards
+            track.innerHTML = '';
+            
+            // Create cards
+            courses.forEach((course, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                // Get user rating for this course
+                const userRating = userRatings[course.name] || 0;
+                const stars = generateStars(userRating, course.name);
+                
+                card.innerHTML = `
+                    <div class="card-img">${course.name}</div>
+                    <div class="card-content">
+                        <h3>${course.title}</h3>
+                        <p>${course.desc}</p>
+                        <div class="card-rating">
+                            <div class="rating-stars" id="stars-${course.name}">
+                                ${stars}
+                            </div>
+                            <span class="rating-text">
+                                ${userRating > 0 ? 
+                                    `${translations[lang].yourRating}: ${userRating}/5` : 
+                                    translations[lang].rateCourse}
+                            </span>
+                        </div>
+                        <div class="card-buttons">
+                            <button class="card-button" onclick="openPaymentModal('${course.name}', ${course.price})">
+                                ${translations[lang].enrollCourse}
+                            </button>
+                            <button class="card-button secondary" onclick="openCodeModal()">
+                                ${translations[lang].enterCode}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                track.appendChild(card);
+            });
+            
+            // Add event listeners for stars
+            setupStarRating();
+        }
+
+        function generateStars(rating, courseName) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                stars += `<span class="star ${i <= rating ? 'active' : ''}" data-rating="${i}" data-course="${courseName}">★</span>`;
+            }
+            return stars;
+        }
+
+        function setupStarRating() {
+            document.querySelectorAll('.star').forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    const courseName = this.getAttribute('data-course');
+                    rateCourse(courseName, rating);
+                });
+            });
+        }
+
+        function rateCourse(courseName, rating) {
+            userRatings[courseName] = rating;
+            localStorage.setItem('userRatings', JSON.stringify(userRatings));
+            
+            // Update the stars visually
+            const starsContainer = document.getElementById(`stars-${courseName}`);
+            if (starsContainer) {
+                starsContainer.innerHTML = generateStars(rating, courseName);
+                setupStarRating();
+            }
+            
+            // Update rating text
+            const ratingText = starsContainer?.parentElement?.querySelector('.rating-text');
+            if (ratingText) {
+                ratingText.textContent = `${translations[currentLanguage].yourRating}: ${rating}/5`;
+            }
+            
+            showNotification('success', 
+                currentLanguage === 'ar' ? 
+                `شكراً لك! قمت بتقييم ${courseName} بـ ${rating} نجوم` :
+                `Thank you! You rated ${courseName} with ${rating} stars`
+            );
+        }
+
+        function openRatingModal(courseName) {
+            currentRatingCourse = courseName;
+            currentUserRating = userRatings[courseName] || 0;
+            
+            document.getElementById('ratingModalTitle').textContent = 
+                `${translations[currentLanguage].rateCourse}: ${courseName}`;
+            
+            // Reset stars in modal
+            const stars = document.querySelectorAll('.star-modal');
+            stars.forEach((star, index) => {
+                star.classList.toggle('active', index < currentUserRating);
+            });
+            
+            document.getElementById('ratingText').textContent = 
+                currentUserRating > 0 ? 
+                `${translations[currentLanguage].yourRating}: ${currentUserRating}/5` : 
+                translations[currentLanguage].chooseRating;
+            
+            document.getElementById('ratingModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Add event listeners to modal stars
+            setupModalStars();
+        }
+
+        function setupModalStars() {
+            document.querySelectorAll('.star-modal').forEach((star, index) => {
+                star.onclick = function() {
+                    currentUserRating = index + 1;
+                    
+                    // Update stars visually
+                    document.querySelectorAll('.star-modal').forEach((s, i) => {
+                        s.classList.toggle('active', i < currentUserRating);
+                    });
+                    
+                    // Update rating text
+                    document.getElementById('ratingText').textContent = 
+                        `${translations[currentLanguage].yourRating}: ${currentUserRating}/5 - ${translations[currentLanguage].ratingTexts[currentUserRating - 1]}`;
+                };
+            });
+        }
+
+        function submitRating() {
+            if (currentUserRating > 0) {
+                rateCourse(currentRatingCourse, currentUserRating);
+                closeRatingModal();
+            } else {
+                showNotification('error', 
+                    currentLanguage === 'ar' ? 
+                    'يرجى اختيار تقييم قبل التأكيد' :
+                    'Please choose a rating before confirming'
+                );
+            }
+        }
+
+        function closeRatingModal() {
+            document.getElementById('ratingModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // =======================================================
+        // Glitch Background Animation
+        // =======================================================
+        const setupGlitchCanvas = () => {
+            const canvas = document.getElementById('glitch-canvas');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            let animationFrameId;
+
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789';
+            const lettersAndSymbols = Array.from(characters);
+            const fontSize = 14;
+            const charWidth = 8;
+            const charHeight = 16;
+            const glitchSpeed = 50;
+            let lastGlitchTime = Date.now();
+            let letters = [];
+            let grid = { columns: 0, rows: 0 };
+            let isTabActive = true;
+
+            const getRandomChar = () => lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)];
+            const getRandomColor = () => ['#2b4539', '#61dca3', '#61b3dc'][Math.floor(Math.random() * 3)];
+
+            const calculateGrid = (width, height) => ({
+                columns: Math.ceil(width / charWidth),
+                rows: Math.ceil(height / charHeight)
+            });
+
+            const initializeLetters = (columns, rows) => {
+                grid = { columns, rows };
+                const totalLetters = columns * rows;
+                letters = Array.from({ length: totalLetters }, () => ({
+                    char: getRandomChar(),
+                    color: getRandomColor()
+                }));
+            };
+
+            const resizeCanvas = () => {
+                const container = document.getElementById('glitch-background-container');
+                if (!container) return;
+
+                const rect = container.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+                canvas.style.width = `${rect.width}px`;
+                canvas.style.height = `${rect.height}px`;
+
+                const newGrid = calculateGrid(rect.width, rect.height);
+                initializeLetters(newGrid.columns, newGrid.rows);
+            };
+
+            const drawLetters = () => {
+                if (letters.length === 0) return;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.font = `${fontSize}px monospace`;
+                ctx.textBaseline = 'top';
+
+                letters.forEach((letter, index) => {
+                    const x = (index % grid.columns) * charWidth;
+                    const y = Math.floor(index / grid.columns) * charHeight;
+                    ctx.fillStyle = letter.color;
+                    ctx.fillText(letter.char, x, y);
+                });
+            };
+
+            const updateLetters = () => {
+                const updateCount = Math.max(1, Math.floor(letters.length * 0.05));
+                for (let i = 0; i < updateCount; i++) {
+                    const index = Math.floor(Math.random() * letters.length);
+                    letters[index].char = getRandomChar();
+                    letters[index].color = getRandomColor();
+                }
+            };
+
+            const optimizedAnimate = () => {
+                if (!isTabActive) {
+                    animationFrameId = requestAnimationFrame(optimizedAnimate);
+                    return;
+                }
+                
+                const now = Date.now();
+                if (now - lastGlitchTime >= glitchSpeed) {
+                    updateLetters();
+                    drawLetters();
+                    lastGlitchTime = now;
+                }
+                animationFrameId = requestAnimationFrame(optimizedAnimate);
+            };
+
+            // Handle tab visibility for performance
+            document.addEventListener('visibilitychange', () => {
+                isTabActive = !document.hidden;
+            });
+
+            resizeCanvas();
+            optimizedAnimate();
+
+            window.addEventListener('resize', resizeCanvas);
+        };
+
+        // =======================================================
+        // GooeyNav Implementation
+        // =======================================================
+        class GooeyNav {
+            constructor(container, options = {}) {
+                this.container = container;
+                this.nav = container.querySelector('nav');
+                this.links = container.querySelectorAll('.nav-links li');
+                this.filterEffect = container.querySelector('.effect.filter');
+                this.textEffect = container.querySelector('.effect.text');
+                
+                this.options = {
+                    particleCount: 15,
+                    particleDistances: [90, 10],
+                    particleR: 100,
+                    animationTime: 600,
+                    timeVariance: 300,
+                    colors: [1, 2, 3, 1, 2, 3, 1, 4],
+                    initialActiveIndex: 0,
+                    ...options
+                };
+                
+                this.activeIndex = this.options.initialActiveIndex;
+                
+                this.init();
+            }
+            
+            init() {
+                this.setupEventListeners();
+                this.updateEffectPosition(this.links[this.activeIndex]);
+                this.textEffect.classList.add('active');
+            }
+            
+            setupEventListeners() {
+                this.links.forEach((link, index) => {
+                    link.addEventListener('click', (e) => this.handleClick(e, index));
+                });
+                
+                window.addEventListener('resize', () => {
+                    this.updateEffectPosition(this.links[this.activeIndex]);
+                });
+            }
+            
+            handleClick(e, index) {
+                if (this.activeIndex === index) return;
+                
+                this.activeIndex = index;
+                this.updateEffectPosition(e.currentTarget);
+                
+                const particles = this.filterEffect.querySelectorAll('.particle');
+                particles.forEach(p => this.filterEffect.removeChild(p));
+                
+                this.textEffect.classList.remove('active');
+                void this.textEffect.offsetWidth;
+                this.textEffect.classList.add('active');
+                
+                this.makeParticles();
+            }
+            
+            updateEffectPosition(element) {
+                const containerRect = this.container.getBoundingClientRect();
+                const pos = element.getBoundingClientRect();
+                
+                const styles = {
+                    left: `${pos.x - containerRect.x}px`,
+                    top: `${pos.y - containerRect.y}px`,
+                    width: `${pos.width}px`,
+                    height: `${pos.height}px`
+                };
+                
+                Object.assign(this.filterEffect.style, styles);
+                Object.assign(this.textEffect.style, styles);
+                this.textEffect.textContent = element.textContent;
+            }
+            
+            noise(n = 1) {
+                return n / 2 - Math.random() * n;
+            }
+            
+            getXY(distance, pointIndex, totalPoints) {
+                const angle = ((360 + this.noise(8)) / totalPoints) * pointIndex * (Math.PI / 180);
+                return [distance * Math.cos(angle), distance * Math.sin(angle)];
+            }
+            
+            createParticle(i, t, d, r) {
+                let rotate = this.noise(r / 10);
+                return {
+                    start: this.getXY(d[0], this.options.particleCount - i, this.options.particleCount),
+                    end: this.getXY(d[1] + this.noise(7), this.options.particleCount - i, this.options.particleCount),
+                    time: t,
+                    scale: 1 + this.noise(0.2),
+                    color: this.options.colors[Math.floor(Math.random() * this.options.colors.length)],
+                    rotate: rotate > 0 ? (rotate + r / 20) * 10 : (rotate - r / 20) * 10
+                };
+            }
+            
+            makeParticles() {
+                const d = this.options.particleDistances;
+                const r = this.options.particleR;
+                const bubbleTime = this.options.animationTime * 2 + this.options.timeVariance;
+                this.filterEffect.style.setProperty('--time', `${bubbleTime}ms`);
+                
+                for (let i = 0; i < this.options.particleCount; i++) {
+                    const t = this.options.animationTime * 2 + this.noise(this.options.timeVariance * 2);
+                    const p = this.createParticle(i, t, d, r);
+                    
+                    setTimeout(() => {
+                        const particle = document.createElement('span');
+                        const point = document.createElement('span');
+                        particle.classList.add('particle');
+                        particle.style.setProperty('--start-x', `${p.start[0]}px`);
+                        particle.style.setProperty('--start-y', `${p.start[1]}px`);
+                        particle.style.setProperty('--end-x', `${p.end[0]}px`);
+                        particle.style.setProperty('--end-y', `${p.end[1]}px`);
+                        particle.style.setProperty('--time', `${p.time}ms`);
+                        particle.style.setProperty('--scale', `${p.scale}`);
+                        particle.style.setProperty('--color', `var(--color-${p.color}, white)`);
+                        particle.style.setProperty('--rotate', `${p.rotate}deg`);
+                        
+                        point.classList.add('point');
+                        particle.appendChild(point);
+                        this.filterEffect.appendChild(particle);
+                        
+                        requestAnimationFrame(() => {
+                            this.filterEffect.classList.add('active');
+                        });
+                        
+                        setTimeout(() => {
+                            try {
+                                this.filterEffect.removeChild(particle);
+                            } catch {
+                                // Do nothing
+                            }
+                        }, t);
+                    }, 30);
+                }
+            }
+        }
+
+        // =======================================================
+        // Notification System
+        // =======================================================
+        function showNotification(type, message) {
+            const container = document.getElementById('notification-container');
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            
+            let icon = 'fa-info-circle';
+            if (type === 'success') icon = 'fa-check-circle';
+            if (type === 'error') icon = 'fa-exclamation-circle';
+            if (type === 'warning') icon = 'fa-exclamation-triangle';
+            
+            notification.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            container.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 5000);
+        }
+
+        // =======================================================
+        // FAQ System
+        // =======================================================
+        function setupFAQ() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+        }
+
+        // =======================================================
+        // Modal Functions
+        // =======================================================
+        let currentCourse = '';
+
+        function openPaymentModal(courseName, price) {
+            currentCourse = courseName;
+            document.getElementById('courseAmount').textContent = price + (currentLanguage === 'ar' ? ' جنيه' : ' EGP');
+            document.getElementById('paymentModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.remove('active');
+            document.body.style.overflow = '';
+            if (currentCourse) {
+                showNotification('success', currentLanguage === 'ar' ? 
+                    'شكراً لك! سيتم تفعيل الكورس: ' + currentCourse + ' خلال 24 ساعة بعد التحقق من الدفع.' :
+                    'Thank you! The course: ' + currentCourse + ' will be activated within 24 hours after payment verification.');
+                currentCourse = '';
+            }
+        }
+
+        function openCodeModal() {
+            document.getElementById('codeModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('courseCode').focus();
+        }
+
+        function closeCodeModal() {
+            document.getElementById('codeModal').classList.remove('active');
+            document.body.style.overflow = '';
+            document.getElementById('courseCode').value = '';
+        }
+
+        function validateCode() {
+            const code = document.getElementById('courseCode').value.trim();
+            if (code === '') {
+                showNotification('error', currentLanguage === 'ar' ? 'يرجى إدخال كود الكورس' : 'Please enter the course code');
+                return;
+            }
+            showNotification('success', currentLanguage === 'ar' ? 'تم تفعيل الكود بنجاح! يمكنك الآن الوصول إلى محتوى الكورس.' : 'Code activated successfully! You can now access the course content.');
+            closeCodeModal();
+        }
+
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function openSignupModal() {
+            document.getElementById('signupModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSignupModal() {
+            document.getElementById('signupModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function handleLogin() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                showNotification('error', currentLanguage === 'ar' ? 'يرجى ملء جميع الحقول' : 'Please fill in all fields');
+                return;
+            }
+
+            showNotification('success', currentLanguage === 'ar' ? 'تم تسجيل الدخول بنجاح! مرحباً ' + username : 'Login successful! Welcome ' + username);
+            closeLoginModal();
+        }
+
+        function handleSignup() {
+            const fullName = document.getElementById('signupFullName').value;
+            const email = document.getElementById('signupEmail').value;
+            const username = document.getElementById('signupUsername').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const phone = document.getElementById('signupPhone').value;
+
+            if (!fullName || !email || !username || !password || !confirmPassword || !phone) {
+                showNotification('error', currentLanguage === 'ar' ? 'يرجى ملء جميع الحقول' : 'Please fill in all fields');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showNotification('error', currentLanguage === 'ar' ? 'كلمة المرور غير متطابقة' : 'Passwords do not match');
+                return;
+            }
+
+            showNotification('success', currentLanguage === 'ar' ? 'تم إنشاء الحساب بنجاح! تم إرسال رسالة تأكيد إلى بريدك الإلكتروني.' : 'Account created successfully! A confirmation message has been sent to your email.');
+            closeSignupModal();
+        }
+
+        // Close modals when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function (e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // =======================================================
+        // Mobile Navigation
+        // =======================================================
+        function setupMobileNavigation() {
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const mobileNav = document.getElementById('mobile-nav');
+            const overlay = document.getElementById('overlay');
+
+            function toggleMobileMenu() {
+                mobileNav.classList.toggle('active');
+                overlay.classList.toggle('active');
+                document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+            }
+
+            mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+            overlay.addEventListener('click', toggleMobileMenu);
+        }
+
+        // =======================================================
+        // Initialization
+        // =======================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load preferred language
+            const preferredLang = localStorage.getItem('preferredLanguage') || 'ar';
+            updatePageLanguage(preferredLang);
+
+            // Setup glitch background
+            setupGlitchCanvas();
+
+            // Setup mobile navigation
+            setupMobileNavigation();
+
+            // Setup FAQ system
+            setupFAQ();
+
+            // Setup scroll system
+            setupScroll();
+
+            // Setup language switcher
+            document.getElementById('language-switcher').addEventListener('click', switchLanguage);
+            document.getElementById('mobile-language-switcher').addEventListener('click', switchLanguage);
+
+            // Initialize GooeyNav
+            const gooeyNavContainer = document.getElementById('gooey-nav-wrapper');
+            if (gooeyNavContainer) {
+                new GooeyNav(gooeyNavContainer);
+            }
+
+            // Show welcome notification
+            setTimeout(() => {
+                showNotification('info', currentLanguage === 'ar' ? 
+                    'مرحباً بك في منصة Lam3Code! ابدأ رحلتك في تعلم البرمجة الآن.' : 
+                    'Welcome to Lam3Code! Start your programming journey now.');
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>
