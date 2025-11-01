@@ -140,7 +140,7 @@
         }
 
         /* ==========================
-           2. Navigation
+           2. Navigation - كما كانت في الأصل
            ========================== */
 
         .main-nav-wrapper {
@@ -199,7 +199,7 @@
             --color-2: #e74c3c;
             --color-3: #61dca3;
             --color-4: #f1c40f;
-            transition: all 0.3s;
+            transition: all 0.3s
         }
 
         .gooey-nav-container nav {
@@ -219,6 +219,7 @@
 
         .gooey-nav-container li a {
             display: inline-block;
+            display: inline-block;
             padding: 10px 18px;
             border-radius: 8px;
             color: #ecf0f1;
@@ -227,7 +228,6 @@
             transition: color 0.3s;
             position: relative;
             z-index: 20;
-            font-size: 15px;
         }
 
         .gooey-nav-container li.active a {
@@ -242,7 +242,7 @@
             height: 0;
             border-radius: 8px;
             transition: all var(--time, 600ms) cubic-bezier(0.7, -0.5, 0.3, 1.5);
-            pointer-events: none;
+            pointer-events: none
         }
 
         .gooey-nav-container .effect.filter {
@@ -337,9 +337,11 @@
 
         .cards-track {
             display: flex;
+            width: max-content;
+            will-change: transform;
+            user-select: none;
             gap: 30px;
             padding: 10px;
-            transition: transform 0.3s ease;
         }
 
         .card {
@@ -920,7 +922,7 @@
             padding: 15px;
             margin-bottom: 10px;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             animation: slideIn 0.3s ease-out;
             display: flex;
             align-items: center;
@@ -940,13 +942,27 @@
         }
 
         @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         @keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
         }
 
         /* ==========================
@@ -1054,7 +1070,7 @@
             }
 
             .card {
-                min-width: 280px;
+                min-width: 250px;
             }
 
             .footer-content {
@@ -1087,7 +1103,7 @@
             }
 
             .card {
-                min-width: 260px;
+                min-width: 220px;
             }
 
             .video-placeholder .fa-play-circle {
@@ -1358,7 +1374,8 @@
                 <h1>ابدأ رحلتك في عالم البرمجة</h1>
                 <p>تعلم البرمجة من الصفر إلى الاحتراف مع أفضل المدربين ومن خلال مسارات تعليمية شاملة تناسب جميع
                     المستويات</p>
-                <button class="cta-button" onclick="showNotification('success', 'مرحباً بك في منصة Lam3Code!')">ابدأ التعلم الآن</button>
+                <button class="cta-button" onclick="showNotification('success', 'مرحباً بك في منصة Lam3Code!')">ابدأ
+                    التعلم الآن</button>
             </div>
         </section>
 
@@ -1379,7 +1396,8 @@
             <div class="container">
                 <h2 class="section-title">كيفية التسجيل في المنصة</h2>
                 <div class="video-container">
-                    <div class="video-placeholder" onclick="showNotification('info', 'سيتم تشغيل الفيديو التوضيحي قريباً')">
+                    <div class="video-placeholder"
+                        onclick="showNotification('info', 'سيتم تشغيل الفيديو التوضيحي قريباً')">
                         <i class="fas fa-play-circle play-button"></i>
                     </div>
                 </div>
@@ -1420,7 +1438,8 @@
                             <i class="fas fa-chevron-down"></i>
                         </div>
                         <div class="faq-answer">
-                            <p>ننصح بالبدء مع كورس HTML & CSS ثم الانتقال إلى JavaScript، حيث أن هذه اللغات تشكل الأساس لأي مبرمج ويب.</p>
+                            <p>ننصح بالبدء مع كورس HTML & CSS ثم الانتقال إلى JavaScript، حيث أن هذه اللغات تشكل الأساس
+                                لأي مبرمج ويب.</p>
                         </div>
                     </div>
                     <div class="faq-item">
@@ -1497,7 +1516,7 @@
             ar: {
                 // Navigation
                 home: "الرئيسية",
-                courses: "الكورسات", 
+                courses: "الكورسات",
                 blog: "المدونة",
                 contact: "اتصل بنا",
                 login: "تسجيل الدخول",
@@ -1513,14 +1532,14 @@
                 coursesTitle: "الكورسات المتاحة",
 
                 // Video Section
-                videoTitle: "كيفية التسجيل في المنصة", 
+                videoTitle: "كيفية التسجيل في المنصة",
                 videoDesc: "شاهد هذا الفيديو لتعرف كيفية التسجيل في المنصة والبدء في رحلتك التعليمية",
 
                 // Features Section
                 featuresTitle: "لماذا تختار منصتنا؟",
                 feature1Title: "مدربون محترفون",
                 feature1Desc: "تعلم من أفضل المدربين ذوي الخبرة الواسعة في مجال البرمجة.",
-                feature2Title: "مشاريع عملية", 
+                feature2Title: "مشاريع عملية",
                 feature2Desc: "طبق ما تتعلمه من خلال مشاريع عملية حقيقية تبني بها ملفك الشخصي.",
                 feature3Title: "دعم فني متواصل",
                 feature3Desc: "فريق الدعم الفني متاح على مدار الساعة لمساعدتك.",
@@ -1558,7 +1577,7 @@
                 // Navigation
                 home: "Home",
                 courses: "Courses",
-                blog: "Blog", 
+                blog: "Blog",
                 contact: "Contact Us",
                 login: "Login",
                 signup: "Sign Up",
@@ -1573,7 +1592,7 @@
                 coursesTitle: "Available Courses",
 
                 // Video Section
-                videoTitle: "How to Register on the Platform", 
+                videoTitle: "How to Register on the Platform",
                 videoDesc: "Watch this video to learn how to register on the platform and start your educational journey",
 
                 // Features Section
@@ -1582,7 +1601,7 @@
                 feature1Desc: "Learn from the best instructors with extensive experience in the field of programming.",
                 feature2Title: "Practical Projects",
                 feature2Desc: "Apply what you learn through real practical projects to build your portfolio.",
-                feature3Title: "24/7 Technical Support", 
+                feature3Title: "24/7 Technical Support",
                 feature3Desc: "Our technical support team is available around the clock to assist you.",
 
                 // FAQ Section
@@ -1642,9 +1661,12 @@
         let userRatings = JSON.parse(localStorage.getItem('userRatings')) || {};
         let currentRatingCourse = '';
         let currentUserRating = 0;
+        let animationId = null;
+        let isAutoScrolling = true;
+        let isUserInteracting = false;
 
         // =======================================================
-        // Scroll System
+        // Scroll System - حركة مستمرة + تمرير يدوي
         // =======================================================
         let isDragging = false;
         let startX;
@@ -1652,23 +1674,73 @@
 
         function setupScroll() {
             const container = document.getElementById('cardsContainer');
-            if (!container) return;
+            const track = document.getElementById('cardsTrack');
+            if (!container || !track) return;
 
+            // Auto scroll animation
+            function startAutoScroll() {
+                if (!isAutoScrolling || isUserInteracting) return;
+
+                const cards = track.querySelectorAll('.card');
+                if (cards.length === 0) return;
+
+                const cardWidth = cards[0].offsetWidth + 30; // width + gap
+                const totalWidth = cardWidth * cards.length;
+                let position = 0;
+                const speed = 4.5; // pixels per frame
+
+                function animate() {
+                    if (!isAutoScrolling || isUserInteracting) {
+                        animationId = requestAnimationFrame(animate);
+                        return;
+                    }
+
+                    position -= speed;
+
+                    // Reset position when we've scrolled one full set
+                    if (Math.abs(position) >= totalWidth / 3) {
+                        position = 0;
+                    }
+
+                    track.style.transform = `translateX(${position}px)`;
+                    animationId = requestAnimationFrame(animate);
+                }
+
+                animate();
+            }
+
+            // Manual scroll events
             container.addEventListener('mousedown', (e) => {
                 isDragging = true;
+                isUserInteracting = true;
                 startX = e.pageX - container.offsetLeft;
                 scrollLeft = container.scrollLeft;
                 container.style.cursor = 'grabbing';
+
+                // Pause auto scroll
+                isAutoScrolling = false;
             });
 
             container.addEventListener('mouseleave', () => {
                 isDragging = false;
                 container.style.cursor = 'grab';
+                // Resume auto scroll after a delay
+                setTimeout(() => {
+                    isUserInteracting = false;
+                    isAutoScrolling = true;
+                    startAutoScroll();
+                }, 2000);
             });
 
             container.addEventListener('mouseup', () => {
                 isDragging = false;
                 container.style.cursor = 'grab';
+                // Resume auto scroll after a delay
+                setTimeout(() => {
+                    isUserInteracting = false;
+                    isAutoScrolling = true;
+                    startAutoScroll();
+                }, 2000);
             });
 
             container.addEventListener('mousemove', (e) => {
@@ -1682,12 +1754,22 @@
             // Touch events for mobile
             container.addEventListener('touchstart', (e) => {
                 isDragging = true;
+                isUserInteracting = true;
                 startX = e.touches[0].pageX - container.offsetLeft;
                 scrollLeft = container.scrollLeft;
+
+                // Pause auto scroll
+                isAutoScrolling = false;
             });
 
             container.addEventListener('touchend', () => {
                 isDragging = false;
+                // Resume auto scroll after a delay
+                setTimeout(() => {
+                    isUserInteracting = false;
+                    isAutoScrolling = true;
+                    startAutoScroll();
+                }, 2000);
             });
 
             container.addEventListener('touchmove', (e) => {
@@ -1696,6 +1778,9 @@
                 const walk = (x - startX) * 2;
                 container.scrollLeft = scrollLeft - walk;
             });
+
+            // Start auto scroll initially
+            startAutoScroll();
         }
 
         // =======================================================
@@ -1711,18 +1796,18 @@
 
         function updatePageLanguage(lang) {
             currentLanguage = lang;
-            
+
             // Update HTML attributes
             document.documentElement.setAttribute('lang', lang);
             document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
             document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-            
+
             // Update all text content
             updateTextContent(lang);
-            
+
             // Update courses
             updateCourses(lang);
-            
+
             // Update language switcher buttons
             document.getElementById('language-switcher').textContent = translations[lang].language;
             document.getElementById('mobile-language-switcher').textContent = translations[lang].language;
@@ -1730,7 +1815,7 @@
 
         function updateTextContent(lang) {
             const t = translations[lang];
-            
+
             // Navigation
             document.querySelectorAll('.nav-links a, .mobile-nav-links a').forEach((link, index) => {
                 const texts = [t.home, t.courses, t.blog, t.contact];
@@ -1739,24 +1824,24 @@
                     link.setAttribute('data-text', texts[index]);
                 }
             });
-            
+
             // Auth buttons
             document.querySelectorAll('.auth-buttons button, .mobile-auth-buttons button').forEach((btn, index) => {
                 btn.textContent = index === 0 ? t.login : t.signup;
             });
-            
+
             // Hero section
             document.querySelector('.hero h1').textContent = t.heroTitle;
             document.querySelector('.hero p').textContent = t.heroDesc;
             document.querySelector('.cta-button').textContent = t.ctaButton;
-            
+
             // Section titles
             document.querySelector('.courses .section-title').textContent = t.coursesTitle;
             document.querySelector('.video-section .section-title').textContent = t.videoTitle;
             document.querySelector('.features .section-title').textContent = t.featuresTitle;
             document.querySelector('.video-section p').textContent = t.videoDesc;
             document.querySelector('.faq-section .section-title').textContent = t.faqTitle;
-            
+
             // Features
             const featureCards = document.querySelectorAll('.feature-card');
             featureCards[0].querySelector('h3').textContent = t.feature1Title;
@@ -1765,7 +1850,7 @@
             featureCards[1].querySelector('p').textContent = t.feature2Desc;
             featureCards[2].querySelector('h3').textContent = t.feature3Title;
             featureCards[2].querySelector('p').textContent = t.feature3Desc;
-            
+
             // FAQ
             const faqItems = document.querySelectorAll('.faq-item');
             faqItems[0].querySelector('.faq-question h3').textContent = t.faq1Question;
@@ -1776,7 +1861,7 @@
             faqItems[2].querySelector('.faq-answer p').textContent = t.faq3Answer;
             faqItems[3].querySelector('.faq-question h3').textContent = t.faq4Question;
             faqItems[3].querySelector('.faq-answer p').textContent = t.faq4Answer;
-            
+
             // Footer
             document.querySelectorAll('.footer-section h3')[0].textContent = t.contactUs;
             document.querySelectorAll('.footer-section p')[0].innerHTML = `<i class="fas fa-map-marker-alt"></i> ${t.address}`;
@@ -1791,49 +1876,57 @@
         function updateCourses(lang) {
             const courses = coursesData[lang];
             const track = document.getElementById('cardsTrack');
-            
+
             // Clear existing cards
             track.innerHTML = '';
-            
-            // Create cards
-            courses.forEach((course, index) => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                
-                // Get user rating for this course
-                const userRating = userRatings[course.name] || 0;
-                const stars = generateStars(userRating, course.name);
-                
-                card.innerHTML = `
-                    <div class="card-img">${course.name}</div>
-                    <div class="card-content">
-                        <h3>${course.title}</h3>
-                        <p>${course.desc}</p>
-                        <div class="card-rating">
-                            <div class="rating-stars" id="stars-${course.name}">
-                                ${stars}
+
+            // Create duplicate sets for seamless animation
+            for (let set = 0; set < 3; set++) {
+                courses.forEach((course, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+
+                    // Get user rating for this course
+                    const userRating = userRatings[course.name] || 0;
+                    const stars = generateStars(userRating, course.name);
+
+                    card.innerHTML = `
+                        <div class="card-img">${course.name}</div>
+                        <div class="card-content">
+                            <h3>${course.title}</h3>
+                            <p>${course.desc}</p>
+                            <div class="card-rating">
+                                <div class="rating-stars" id="stars-${course.name}">
+                                    ${stars}
+                                </div>
+                                <span class="rating-text">
+                                    ${userRating > 0 ?
+                            `${translations[lang].yourRating}: ${userRating}/5` :
+                            translations[lang].rateCourse}
+                                </span>
                             </div>
-                            <span class="rating-text">
-                                ${userRating > 0 ? 
-                                    `${translations[lang].yourRating}: ${userRating}/5` : 
-                                    translations[lang].rateCourse}
-                            </span>
+                            <div class="card-buttons">
+                                <button class="card-button" onclick="openPaymentModal('${course.name}', ${course.price})">
+                                    ${translations[lang].enrollCourse}
+                                </button>
+                                <button class="card-button secondary" onclick="openCodeModal()">
+                                    ${translations[lang].enterCode}
+                                </button>
+                            </div>
                         </div>
-                        <div class="card-buttons">
-                            <button class="card-button" onclick="openPaymentModal('${course.name}', ${course.price})">
-                                ${translations[lang].enrollCourse}
-                            </button>
-                            <button class="card-button secondary" onclick="openCodeModal()">
-                                ${translations[lang].enterCode}
-                            </button>
-                        </div>
-                    </div>
-                `;
-                track.appendChild(card);
-            });
-            
+                    `;
+                    track.appendChild(card);
+                });
+            }
+
             // Add event listeners for stars
             setupStarRating();
+
+            // Restart scroll system
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+            setupScroll();
         }
 
         function generateStars(rating, courseName) {
@@ -1846,7 +1939,7 @@
 
         function setupStarRating() {
             document.querySelectorAll('.star').forEach(star => {
-                star.addEventListener('click', function() {
+                star.addEventListener('click', function () {
                     const rating = parseInt(this.getAttribute('data-rating'));
                     const courseName = this.getAttribute('data-course');
                     rateCourse(courseName, rating);
@@ -1857,64 +1950,67 @@
         function rateCourse(courseName, rating) {
             userRatings[courseName] = rating;
             localStorage.setItem('userRatings', JSON.stringify(userRatings));
-            
+
             // Update the stars visually
             const starsContainer = document.getElementById(`stars-${courseName}`);
             if (starsContainer) {
                 starsContainer.innerHTML = generateStars(rating, courseName);
                 setupStarRating();
             }
-            
+
             // Update rating text
             const ratingText = starsContainer?.parentElement?.querySelector('.rating-text');
             if (ratingText) {
                 ratingText.textContent = `${translations[currentLanguage].yourRating}: ${rating}/5`;
             }
-            
-            showNotification('success', 
-                currentLanguage === 'ar' ? 
-                `شكراً لك! قمت بتقييم ${courseName} بـ ${rating} نجوم` :
-                `Thank you! You rated ${courseName} with ${rating} stars`
+
+            showNotification('success',
+                currentLanguage === 'ar' ?
+                    `شكراً لك! قمت بتقييم ${courseName} بـ ${rating} نجوم` :
+                    `Thank you! You rated ${courseName} with ${rating} stars`
             );
         }
+
+        // باقي الدوال تبقى كما هي بدون تغيير...
+        // [يتم اختصار باقي الكود للحفاظ على الطول]
 
         function openRatingModal(courseName) {
             currentRatingCourse = courseName;
             currentUserRating = userRatings[courseName] || 0;
-            
-            document.getElementById('ratingModalTitle').textContent = 
+
+            document.getElementById('ratingModalTitle').textContent =
                 `${translations[currentLanguage].rateCourse}: ${courseName}`;
-            
+
             // Reset stars in modal
             const stars = document.querySelectorAll('.star-modal');
             stars.forEach((star, index) => {
                 star.classList.toggle('active', index < currentUserRating);
             });
-            
-            document.getElementById('ratingText').textContent = 
-                currentUserRating > 0 ? 
-                `${translations[currentLanguage].yourRating}: ${currentUserRating}/5` : 
-                translations[currentLanguage].chooseRating;
-            
+
+            document.getElementById('ratingText').textContent =
+                currentUserRating > 0 ?
+                    `${translations[currentLanguage].yourRating}: ${currentUserRating}/5` :
+                    translations[currentLanguage].chooseRating;
+
             document.getElementById('ratingModal').classList.add('active');
             document.body.style.overflow = 'hidden';
-            
+
             // Add event listeners to modal stars
             setupModalStars();
         }
 
         function setupModalStars() {
             document.querySelectorAll('.star-modal').forEach((star, index) => {
-                star.onclick = function() {
+                star.onclick = function () {
                     currentUserRating = index + 1;
-                    
+
                     // Update stars visually
                     document.querySelectorAll('.star-modal').forEach((s, i) => {
                         s.classList.toggle('active', i < currentUserRating);
                     });
-                    
+
                     // Update rating text
-                    document.getElementById('ratingText').textContent = 
+                    document.getElementById('ratingText').textContent =
                         `${translations[currentLanguage].yourRating}: ${currentUserRating}/5 - ${translations[currentLanguage].ratingTexts[currentUserRating - 1]}`;
                 };
             });
@@ -1925,10 +2021,10 @@
                 rateCourse(currentRatingCourse, currentUserRating);
                 closeRatingModal();
             } else {
-                showNotification('error', 
-                    currentLanguage === 'ar' ? 
-                    'يرجى اختيار تقييم قبل التأكيد' :
-                    'Please choose a rating before confirming'
+                showNotification('error',
+                    currentLanguage === 'ar' ?
+                        'يرجى اختيار تقييم قبل التأكيد' :
+                        'Please choose a rating before confirming'
                 );
             }
         }
@@ -2018,7 +2114,7 @@
                     animationFrameId = requestAnimationFrame(optimizedAnimate);
                     return;
                 }
-                
+
                 const now = Date.now();
                 if (now - lastGlitchTime >= glitchSpeed) {
                     updateLetters();
@@ -2049,7 +2145,7 @@
                 this.links = container.querySelectorAll('.nav-links li');
                 this.filterEffect = container.querySelector('.effect.filter');
                 this.textEffect = container.querySelector('.effect.text');
-                
+
                 this.options = {
                     particleCount: 15,
                     particleDistances: [90, 10],
@@ -2060,69 +2156,69 @@
                     initialActiveIndex: 0,
                     ...options
                 };
-                
+
                 this.activeIndex = this.options.initialActiveIndex;
-                
+
                 this.init();
             }
-            
+
             init() {
                 this.setupEventListeners();
                 this.updateEffectPosition(this.links[this.activeIndex]);
                 this.textEffect.classList.add('active');
             }
-            
+
             setupEventListeners() {
                 this.links.forEach((link, index) => {
                     link.addEventListener('click', (e) => this.handleClick(e, index));
                 });
-                
+
                 window.addEventListener('resize', () => {
                     this.updateEffectPosition(this.links[this.activeIndex]);
                 });
             }
-            
+
             handleClick(e, index) {
                 if (this.activeIndex === index) return;
-                
+
                 this.activeIndex = index;
                 this.updateEffectPosition(e.currentTarget);
-                
+
                 const particles = this.filterEffect.querySelectorAll('.particle');
                 particles.forEach(p => this.filterEffect.removeChild(p));
-                
+
                 this.textEffect.classList.remove('active');
                 void this.textEffect.offsetWidth;
                 this.textEffect.classList.add('active');
-                
+
                 this.makeParticles();
             }
-            
+
             updateEffectPosition(element) {
                 const containerRect = this.container.getBoundingClientRect();
                 const pos = element.getBoundingClientRect();
-                
+
                 const styles = {
                     left: `${pos.x - containerRect.x}px`,
                     top: `${pos.y - containerRect.y}px`,
                     width: `${pos.width}px`,
                     height: `${pos.height}px`
                 };
-                
+
                 Object.assign(this.filterEffect.style, styles);
                 Object.assign(this.textEffect.style, styles);
                 this.textEffect.textContent = element.textContent;
             }
-            
+
             noise(n = 1) {
                 return n / 2 - Math.random() * n;
             }
-            
+
             getXY(distance, pointIndex, totalPoints) {
                 const angle = ((360 + this.noise(8)) / totalPoints) * pointIndex * (Math.PI / 180);
                 return [distance * Math.cos(angle), distance * Math.sin(angle)];
             }
-            
+
             createParticle(i, t, d, r) {
                 let rotate = this.noise(r / 10);
                 return {
@@ -2134,17 +2230,17 @@
                     rotate: rotate > 0 ? (rotate + r / 20) * 10 : (rotate - r / 20) * 10
                 };
             }
-            
+
             makeParticles() {
                 const d = this.options.particleDistances;
                 const r = this.options.particleR;
                 const bubbleTime = this.options.animationTime * 2 + this.options.timeVariance;
                 this.filterEffect.style.setProperty('--time', `${bubbleTime}ms`);
-                
+
                 for (let i = 0; i < this.options.particleCount; i++) {
                     const t = this.options.animationTime * 2 + this.noise(this.options.timeVariance * 2);
                     const p = this.createParticle(i, t, d, r);
-                    
+
                     setTimeout(() => {
                         const particle = document.createElement('span');
                         const point = document.createElement('span');
@@ -2157,15 +2253,15 @@
                         particle.style.setProperty('--scale', `${p.scale}`);
                         particle.style.setProperty('--color', `var(--color-${p.color}, white)`);
                         particle.style.setProperty('--rotate', `${p.rotate}deg`);
-                        
+
                         point.classList.add('point');
                         particle.appendChild(point);
                         this.filterEffect.appendChild(particle);
-                        
+
                         requestAnimationFrame(() => {
                             this.filterEffect.classList.add('active');
                         });
-                        
+
                         setTimeout(() => {
                             try {
                                 this.filterEffect.removeChild(particle);
@@ -2185,19 +2281,19 @@
             const container = document.getElementById('notification-container');
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
-            
+
             let icon = 'fa-info-circle';
             if (type === 'success') icon = 'fa-check-circle';
             if (type === 'error') icon = 'fa-exclamation-circle';
             if (type === 'warning') icon = 'fa-exclamation-triangle';
-            
+
             notification.innerHTML = `
                 <i class="fas ${icon}"></i>
                 <span>${message}</span>
             `;
-            
+
             container.appendChild(notification);
-            
+
             // Auto remove after 5 seconds
             setTimeout(() => {
                 notification.style.animation = 'slideOut 0.3s ease-out';
@@ -2214,10 +2310,10 @@
         // =======================================================
         function setupFAQ() {
             const faqItems = document.querySelectorAll('.faq-item');
-            
+
             faqItems.forEach(item => {
                 const question = item.querySelector('.faq-question');
-                
+
                 question.addEventListener('click', () => {
                     // Close all other items
                     faqItems.forEach(otherItem => {
@@ -2225,7 +2321,7 @@
                             otherItem.classList.remove('active');
                         }
                     });
-                    
+
                     // Toggle current item
                     item.classList.toggle('active');
                 });
@@ -2248,7 +2344,7 @@
             document.getElementById('paymentModal').classList.remove('active');
             document.body.style.overflow = '';
             if (currentCourse) {
-                showNotification('success', currentLanguage === 'ar' ? 
+                showNotification('success', currentLanguage === 'ar' ?
                     'شكراً لك! سيتم تفعيل الكورس: ' + currentCourse + ' خلال 24 ساعة بعد التحقق من الدفع.' :
                     'Thank you! The course: ' + currentCourse + ' will be activated within 24 hours after payment verification.');
                 currentCourse = '';
@@ -2392,8 +2488,8 @@
 
             // Show welcome notification
             setTimeout(() => {
-                showNotification('info', currentLanguage === 'ar' ? 
-                    'مرحباً بك في منصة Lam3Code! ابدأ رحلتك في تعلم البرمجة الآن.' : 
+                showNotification('info', currentLanguage === 'ar' ?
+                    'مرحباً بك في منصة Lam3Code! ابدأ رحلتك في تعلم البرمجة الآن.' :
                     'Welcome to Lam3Code! Start your programming journey now.');
             }, 1000);
         });
