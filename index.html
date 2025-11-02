@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* ==========================
-           1. Global Styles & Dark Theme
+           1. Global Styles & Theme Variables
            ========================== */
         * {
             margin: 0;
@@ -18,6 +18,7 @@
         }
 
         :root {
+            /* Codey Mode (Dark Theme) - Default */
             --primary-color: #3498db;
             --secondary-color: #61dca3;
             --accent-color: #e74c3c;
@@ -27,6 +28,73 @@
             --card-bg: rgba(255, 255, 255, 0.1);
             --text-color: #ecf0f1;
             --modal-bg: rgba(0, 0, 0, 0.95);
+            --nav-bg: rgba(0, 0, 0, 0.7);
+            --hero-gradient: linear-gradient(135deg, rgba(52, 152, 219, 0.8), rgba(44, 62, 80, 0.8));
+            --section-bg: rgba(0, 0, 0, 0.75);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(52, 152, 219, 0.2);
+            --input-bg: rgba(255, 255, 255, 0.1);
+            --footer-bg: rgba(0, 0, 0, 0.9);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        /* Standard Mode (Natural Colors) */
+        body.standard-mode {
+            --primary-color: #2c5aa0;
+            --secondary-color: #4a9c7d;
+            --accent-color: #c44569;
+            --success-color: #27ae60;
+            --warning-color: #e67e22;
+            --dark-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --modal-bg: rgba(255, 255, 255, 0.95);
+            --nav-bg: rgba(255, 255, 255, 0.7);
+            --hero-gradient: linear-gradient(135deg, #2c5aa0, #3498db);
+            --section-bg: rgba(248, 249, 250, 0.9);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --shadow-color: rgba(44, 62, 80, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.9);
+            --footer-bg: #e9ecef;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+        }
+
+        /* Light Mode Override - يعمل مع جميع الثيمات */
+        body.light-mode-override {
+            --dark-bg: #ffffff !important;
+            --card-bg: #f8f9fa !important;
+            --text-color: #202124 !important;
+            --modal-bg: rgba(255, 255, 255, 0.98) !important;
+            --nav-bg: rgba(255, 255, 255, 0.8) !important;
+            --section-bg: rgba(248, 249, 250, 0.95) !important;
+            --border-color: rgba(0, 0, 0, 0.08) !important;
+            --shadow-color: rgba(0, 0, 0, 0.1) !important;
+            --input-bg: #ffffff !important;
+            --footer-bg: #f1f3f4 !important;
+            --glass-bg: rgba(255, 255, 255, 0.8) !important;
+            --glass-border: rgba(255, 255, 255, 0.4) !important;
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1) !important;
+        }
+
+        /* Dark Mode Override - يعمل مع جميع الثيمات */
+        body.dark-mode-override {
+            --dark-bg: #000000 !important;
+            --card-bg: rgba(255, 255, 255, 0.1) !important;
+            --text-color: #ecf0f1 !important;
+            --modal-bg: rgba(0, 0, 0, 0.95) !important;
+            --nav-bg: rgba(0, 0, 0, 0.8) !important;
+            --section-bg: rgba(0, 0, 0, 0.75) !important;
+            --border-color: rgba(255, 255, 255, 0.1) !important;
+            --shadow-color: rgba(52, 152, 219, 0.2) !important;
+            --input-bg: rgba(255, 255, 255, 0.1) !important;
+            --footer-bg: rgba(0, 0, 0, 0.9) !important;
+            --glass-bg: rgba(255, 255, 255, 0.1) !important;
+            --glass-border: rgba(255, 255, 255, 0.2) !important;
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37) !important;
         }
 
         body {
@@ -36,9 +104,10 @@
             position: relative;
             min-height: 100vh;
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Glitch Background */
+        /* Glitch Background - Hidden in Standard and Light modes */
         #glitch-background-container {
             position: fixed;
             top: 0;
@@ -46,6 +115,13 @@
             width: 100%;
             height: 100%;
             z-index: -1;
+            transition: opacity 0.5s ease;
+        }
+
+        body.standard-mode #glitch-background-container,
+        body.light-mode-override #glitch-background-container {
+            opacity: 0;
+            pointer-events: none;
         }
 
         #glitch-canvas {
@@ -64,6 +140,11 @@
             background: radial-gradient(circle, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 1) 100%);
         }
 
+        body.standard-mode .outer-vignette,
+        body.light-mode-override .outer-vignette {
+            display: none;
+        }
+
         .container {
             width: 95%;
             max-width: 1200px;
@@ -78,10 +159,11 @@
         .features,
         .faq-section,
         footer {
-            background-color: rgba(0, 0, 0, 0.75);
+            background-color: var(--section-bg);
             padding: 60px 0;
             margin-bottom: 20px;
-            border-top: 1px solid rgba(52, 152, 219, 0.1);
+            border-top: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         .logo {
@@ -100,9 +182,10 @@
         }
 
         .hero {
-            background: linear-gradient(135deg, rgba(52, 152, 219, 0.8), rgba(44, 62, 80, 0.8));
+            background: var(--hero-gradient);
             padding: 100px 0 80px;
             text-align: center;
+            transition: background 0.3s ease;
         }
 
         .hero h1 {
@@ -132,24 +215,31 @@
             transition: all 0.3s ease;
             font-weight: bold;
             display: inline-block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .cta-button:hover {
-            background-color: #4ecf91;
+            background-color: var(--secondary-color);
+            filter: brightness(0.9);
             transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
         /* ==========================
-           2. Navigation - كما كانت في الأصل
+           2. Navigation - Glassy Design
            ========================== */
 
         .main-nav-wrapper {
-            background-color: rgba(0, 0, 0, 0.9);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
             padding: 15px 0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            box-shadow: var(--glass-shadow);
+            transition: all 0.3s ease;
         }
 
         .nav-container {
@@ -165,49 +255,70 @@
         }
 
         .auth-buttons button {
-            background-color: var(--accent-color);
+            background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
             color: white;
             border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
+            padding: 10px 20px;
+            border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 14px;
             white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-buttons button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .auth-buttons button:hover::before {
+            left: 100%;
         }
 
         .auth-buttons button:hover {
-            background-color: #c0392b;
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        #theme-switcher {
+            background: linear-gradient(135deg, var(--primary-color), #6a89cc);
         }
 
         #language-switcher {
-            background-color: var(--primary-color);
-        }
-
-        #language-switcher:hover {
-            background-color: #2980b9;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         }
 
         /* GooeyNav Styles */
         .gooey-nav-container {
             display: inline-block;
             position: relative;
-            border-radius: 8px;
+            border-radius: 25px;
             filter: url(#goo);
-            --color-1: #3498db;
-            --color-2: #e74c3c;
-            --color-3: #61dca3;
-            --color-4: #f1c40f;
-            transition: all 0.3s
+            --color-1: var(--primary-color);
+            --color-2: var(--accent-color);
+            --color-3: var(--secondary-color);
+            --color-4: var(--warning-color);
+            transition: all 0.3s;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
         }
 
         .gooey-nav-container nav {
             position: relative;
             z-index: 10;
             padding: 8px 10px;
-            background-color: rgba(44, 62, 80, 0.9);
-            border-radius: 8px;
+            border-radius: 25px;
         }
 
         .gooey-nav-container .nav-links {
@@ -219,10 +330,9 @@
 
         .gooey-nav-container li a {
             display: inline-block;
-            display: inline-block;
             padding: 10px 18px;
-            border-radius: 8px;
-            color: #ecf0f1;
+            border-radius: 15px;
+            color: var(--text-color);
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s;
@@ -231,7 +341,7 @@
         }
 
         .gooey-nav-container li.active a {
-            color: #61dca3;
+            color: var(--secondary-color);
         }
 
         .gooey-nav-container .effect {
@@ -240,13 +350,13 @@
             left: 0;
             width: 0;
             height: 0;
-            border-radius: 8px;
+            border-radius: 15px;
             transition: all var(--time, 600ms) cubic-bezier(0.7, -0.5, 0.3, 1.5);
             pointer-events: none
         }
 
         .gooey-nav-container .effect.filter {
-            background-color: #3498db;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             z-index: 5;
             will-change: transform;
         }
@@ -309,6 +419,257 @@
             opacity: 0;
         }
 
+        /* Dark/Light Mode Switch Styles - محسن */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #2196f3, #21cbf3);
+            -webkit-transition: 0.4s;
+            transition: 0.4s;
+            z-index: 0;
+            overflow: hidden;
+            border-radius: 34px;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .sun-moon {
+            position: absolute;
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: #ffeb3b;
+            -webkit-transition: 0.4s;
+            transition: 0.4s;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
+        }
+
+        input:checked+.slider {
+            background: linear-gradient(135deg, #000428, #004e92);
+        }
+
+        input:checked+.slider .sun-moon {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+            background-color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            animation: rotate-center 0.6s ease-in-out both;
+        }
+
+        .moon-dot {
+            opacity: 0;
+            transition: 0.4s;
+            fill: #b0b0b0;
+            position: absolute;
+        }
+
+        input:checked+.slider .sun-moon .moon-dot {
+            opacity: 1;
+        }
+
+        #moon-dot-1 {
+            left: 8px;
+            top: 5px;
+            width: 4px;
+            height: 4px;
+        }
+
+        #moon-dot-2 {
+            left: 3px;
+            top: 12px;
+            width: 6px;
+            height: 6px;
+        }
+
+        #moon-dot-3 {
+            left: 14px;
+            top: 16px;
+            width: 3px;
+            height: 3px;
+        }
+
+        .light-ray {
+            position: absolute;
+            fill: #ffeb3b;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        input:not(:checked)+.slider .light-ray {
+            opacity: 0.2;
+        }
+
+        #light-ray-1 {
+            left: -8px;
+            top: -8px;
+            width: 43px;
+            height: 43px;
+        }
+
+        #light-ray-2 {
+            left: -15px;
+            top: -15px;
+            width: 55px;
+            height: 55px;
+        }
+
+        #light-ray-3 {
+            left: -18px;
+            top: -18px;
+            width: 60px;
+            height: 60px;
+        }
+
+        .cloud {
+            position: absolute;
+            fill: rgba(255, 255, 255, 0.8);
+            animation-name: cloud-move;
+            animation-duration: 6s;
+            animation-iteration-count: infinite;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        input:not(:checked)+.slider .cloud {
+            opacity: 1;
+        }
+
+        #cloud-1 {
+            left: 30px;
+            top: 15px;
+            width: 40px;
+        }
+
+        #cloud-2 {
+            left: 44px;
+            top: 10px;
+            width: 20px;
+        }
+
+        #cloud-3 {
+            left: 18px;
+            top: 24px;
+            width: 30px;
+        }
+
+        @keyframes cloud-move {
+            0% {
+                transform: translateX(0px);
+            }
+
+            40% {
+                transform: translateX(4px);
+            }
+
+            80% {
+                transform: translateX(-4px);
+            }
+
+            100% {
+                transform: translateX(0px);
+            }
+        }
+
+        .stars {
+            transform: translateY(-32px);
+            opacity: 0;
+            transition: 0.4s;
+        }
+
+        .star-svg {
+            fill: white;
+            position: absolute;
+            -webkit-transition: 0.4s;
+            transition: 0.4s;
+            animation-name: star-twinkle;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+        }
+
+        input:checked+.slider .stars {
+            -webkit-transform: translateY(0);
+            -ms-transform: translateY(0);
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        #star-1 {
+            width: 20px;
+            top: 2px;
+            left: 3px;
+            animation-delay: 0.3s;
+        }
+
+        #star-2 {
+            width: 6px;
+            top: 16px;
+            left: 3px;
+        }
+
+        #star-3 {
+            width: 12px;
+            top: 20px;
+            left: 10px;
+            animation-delay: 0.6s;
+        }
+
+        #star-4 {
+            width: 18px;
+            top: 0px;
+            left: 18px;
+            animation-delay: 1.3s;
+        }
+
+        @keyframes star-twinkle {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes rotate-center {
+            0% {
+                transform: translateX(26px) rotate(0);
+            }
+
+            100% {
+                transform: translateX(26px) rotate(360deg);
+            }
+        }
+
         /* ==========================
            3. Improved Courses Section
            ========================== */
@@ -345,22 +706,24 @@
         }
 
         .card {
-            background-color: var(--card-bg);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
             min-width: 300px;
             flex-shrink: 0;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 25px;
+            border-radius: 20px;
             transition: all 0.3s ease;
             text-align: center;
             cursor: pointer;
             position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.3);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
 
         .card-img {
@@ -384,7 +747,8 @@
         }
 
         .card-content p {
-            color: #bdc3c7;
+            color: var(--text-color);
+            opacity: 0.8;
             margin-bottom: 20px;
             font-size: 15px;
             line-height: 1.5;
@@ -424,7 +788,8 @@
 
         .rating-text {
             font-size: 14px;
-            color: #bdc3c7;
+            color: var(--text-color);
+            opacity: 0.7;
             text-align: center;
         }
 
@@ -435,28 +800,42 @@
         }
 
         .card-button {
-            background-color: var(--accent-color);
+            background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
             color: white;
             border: none;
             padding: 12px 20px;
-            border-radius: 6px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 15px;
             transition: all 0.3s ease;
             width: 100%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .card-button:hover::before {
+            left: 100%;
         }
 
         .card-button:hover {
-            background-color: #c0392b;
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
         .card-button.secondary {
-            background-color: var(--primary-color);
-        }
-
-        .card-button.secondary:hover {
-            background-color: #2980b9;
+            background: linear-gradient(135deg, var(--primary-color), #6a89cc);
         }
 
         /* Scrollbar Styling */
@@ -495,6 +874,13 @@
             font-size: 24px;
             cursor: pointer;
             z-index: 1003;
+            padding: 10px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: var(--glass-bg);
         }
 
         .mobile-nav {
@@ -503,12 +889,15 @@
             right: 0;
             width: 280px;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.95);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             z-index: 1002;
             transform: translateX(100%);
             transition: transform 0.3s ease-in-out;
             padding: 80px 20px 20px;
             overflow-y: auto;
+            border-left: 1px solid var(--glass-border);
         }
 
         .mobile-nav.active {
@@ -529,8 +918,8 @@
             text-decoration: none;
             font-size: 18px;
             display: block;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 15px;
+            border-radius: 10px;
             transition: background-color 0.3s;
         }
 
@@ -546,29 +935,43 @@
         }
 
         .mobile-auth-buttons button {
-            background-color: var(--accent-color);
+            background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
             color: white;
             border: none;
-            padding: 12px;
-            border-radius: 5px;
+            padding: 15px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 16px;
+            transition: all 0.3s ease;
         }
 
+        .mobile-auth-buttons button:hover {
+            transform: translateY(-2px);
+        }
+
+        .mobile-theme-switcher,
+        .mobile-dark-mode-toggle,
         .mobile-language-switcher {
             margin-top: 20px;
             text-align: center;
         }
 
+        .mobile-theme-switcher button,
         .mobile-language-switcher button {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), #6a89cc);
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
+            padding: 12px 15px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 16px;
             width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-theme-switcher button:hover,
+        .mobile-language-switcher button:hover {
+            transform: translateY(-2px);
         }
 
         .overlay {
@@ -582,6 +985,7 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s, visibility 0.3s;
+            backdrop-filter: blur(5px);
         }
 
         .overlay.active {
@@ -610,14 +1014,16 @@
         }
 
         .modal-content {
-            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
             padding: 40px;
-            border-radius: 15px;
+            border-radius: 20px;
             max-width: 500px;
             width: 90%;
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--glass-shadow);
             position: relative;
         }
 
@@ -630,6 +1036,13 @@
             color: var(--text-color);
             font-size: 24px;
             cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .modal-close:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .modal-title {
@@ -639,7 +1052,8 @@
         }
 
         .modal-text {
-            color: #bdc3c7;
+            color: var(--text-color);
+            opacity: 0.8;
             font-size: 16px;
             line-height: 1.6;
             margin-bottom: 25px;
@@ -660,9 +1074,9 @@
         .form-input {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            background: var(--input-bg);
             color: var(--text-color);
             font-size: 16px;
             transition: border-color 0.3s;
@@ -676,8 +1090,13 @@
         .payment-info {
             background: rgba(255, 255, 255, 0.05);
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 15px;
             margin: 25px 0;
+        }
+
+        body.standard-mode .payment-info,
+        body.light-mode-override .payment-info {
+            background: rgba(0, 0, 0, 0.05);
         }
 
         .payment-number {
@@ -704,14 +1123,24 @@
         .payment-method {
             background: rgba(255, 255, 255, 0.05);
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s;
             border: 2px solid transparent;
         }
 
+        body.standard-mode .payment-method,
+        body.light-mode-override .payment-method {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
         .payment-method:hover {
             background: rgba(255, 255, 255, 0.1);
+        }
+
+        body.standard-mode .payment-method:hover,
+        body.light-mode-override .payment-method:hover {
+            background: rgba(0, 0, 0, 0.1);
         }
 
         .payment-method.active {
@@ -721,9 +1150,9 @@
         .code-input {
             width: 100%;
             padding: 15px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            background: var(--input-bg);
             color: var(--text-color);
             font-size: 16px;
             text-align: center;
@@ -731,31 +1160,45 @@
         }
 
         .modal-button {
-            background-color: var(--secondary-color);
+            background: linear-gradient(135deg, var(--secondary-color), #4cd964);
             color: #000;
             border: none;
             padding: 15px 30px;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
             transition: all 0.3s ease;
             width: 100%;
             margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .modal-button:hover::before {
+            left: 100%;
         }
 
         .modal-button:hover {
-            background-color: #4ecf91;
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
         .modal-button.secondary {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), #6a89cc);
             color: white;
-        }
-
-        .modal-button.secondary:hover {
-            background-color: #2980b9;
         }
 
         /* ==========================
@@ -773,9 +1216,12 @@
             padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
-            background-color: #2c3e50;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(52, 152, 219, 0.4);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
         }
 
         .video-placeholder {
@@ -788,11 +1234,16 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .video-placeholder:hover {
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .video-placeholder .fa-play-circle {
             font-size: 80px;
-            color: #3498db;
+            color: var(--primary-color);
             transition: color 0.3s;
         }
 
@@ -800,7 +1251,8 @@
             text-align: center;
             margin-top: 20px;
             font-size: 16px;
-            color: #bdc3c7;
+            color: var(--text-color);
+            opacity: 0.8;
         }
 
         /* ==========================
@@ -818,19 +1270,22 @@
         }
 
         .feature-card {
-            background-color: var(--card-bg);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
             min-width: 300px;
             flex: 1;
-            padding: 25px 20px;
-            border-radius: 10px;
+            padding: 30px 25px;
+            border-radius: 20px;
             text-align: center;
             transition: all 0.3s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.3);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
 
         .feature-card h3 {
@@ -840,7 +1295,8 @@
         }
 
         .feature-card p {
-            color: #bdc3c7;
+            color: var(--text-color);
+            opacity: 0.8;
             font-size: 16px;
             line-height: 1.6;
         }
@@ -858,11 +1314,14 @@
         }
 
         .faq-item {
-            background-color: var(--card-bg);
-            border-radius: 10px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
             margin-bottom: 15px;
             overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--glass-shadow);
         }
 
         .faq-question {
@@ -876,6 +1335,11 @@
 
         .faq-question:hover {
             background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        body.standard-mode .faq-question:hover,
+        body.light-mode-override .faq-question:hover {
+            background-color: rgba(0, 0, 0, 0.05);
         }
 
         .faq-question h3 {
@@ -917,12 +1381,14 @@
         }
 
         .notification {
-            background: var(--card-bg);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-left: 4px solid var(--secondary-color);
             padding: 15px;
             margin-bottom: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            box-shadow: var(--glass-shadow);
             animation: slideIn 0.3s ease-out;
             display: flex;
             align-items: center;
@@ -970,8 +1436,11 @@
            ========================== */
         footer {
             padding: 50px 0 20px;
-            background-color: rgba(0, 0, 0, 0.9);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             margin-bottom: 0;
+            border-top: 1px solid var(--glass-border);
         }
 
         .footer-content {
@@ -979,7 +1448,7 @@
             justify-content: space-between;
             flex-wrap: wrap;
             padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .footer-section {
@@ -994,7 +1463,8 @@
         }
 
         .footer-section p {
-            color: #bdc3c7;
+            color: var(--text-color);
+            opacity: 0.8;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
@@ -1003,16 +1473,26 @@
 
         .footer-section a {
             display: block;
-            color: #ecf0f1;
+            color: var(--text-color);
             text-decoration: none;
             margin-bottom: 5px;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary-color);
         }
 
         .social-icons a {
             display: inline-block;
             margin-left: 10px;
             font-size: 20px;
-            color: #61dca3;
+            color: var(--secondary-color);
+            transition: transform 0.3s;
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-3px);
         }
 
         .footer-bottom {
@@ -1021,7 +1501,54 @@
         }
 
         /* ==========================
-           11. Responsive Styles
+           11. Rating Modal Stars Styles
+           ========================== */
+        .rating-stars-modal {
+            margin: 25px 0;
+        }
+
+        .stars-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            direction: ltr;
+        }
+
+        .star-modal {
+            font-size: 40px;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .star-modal.active {
+            color: var(--warning-color);
+            transform: scale(1.2);
+            text-shadow: 0 0 15px var(--warning-color);
+        }
+
+        .star-modal:hover {
+            color: var(--warning-color);
+            transform: scale(1.3);
+        }
+
+        .rating-text-modal {
+            font-size: 18px;
+            color: var(--text-color);
+            font-weight: bold;
+            min-height: 25px;
+        }
+
+        .modal-icon {
+            font-size: 60px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        /* ==========================
+           12. Responsive Styles
            ========================== */
 
         @media (max-width: 1024px) {
@@ -1159,6 +1686,70 @@
                 <button onclick="openSignupModal()">إنشاء حساب</button>
             </div>
 
+            <div class="mobile-theme-switcher">
+                <button id="mobile-theme-switcher">Codey Mode</button>
+            </div>
+
+            <div class="mobile-dark-mode-toggle">
+                <label class="switch">
+                    <input id="mobile-dark-mode-input" type="checkbox" />
+                    <div class="slider round">
+                        <div class="sun-moon">
+                            <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+                            <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+                            <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+                            <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+                            <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+                            <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+
+                            <svg id="cloud-1" class="cloud" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+                            <svg id="cloud-2" class="cloud" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+                            <svg id="cloud-3" class="cloud" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+                        </div>
+                        <div class="stars">
+                            <svg id="star-1" class="star-svg" viewBox="0 0 20 20">
+                                <path
+                                    d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z">
+                                </path>
+                            </svg>
+                            <svg id="star-2" class="star-svg" viewBox="0 0 20 20">
+                                <path
+                                    d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z">
+                                </path>
+                            </svg>
+                            <svg id="star-3" class="star-svg" viewBox="0 0 20 20">
+                                <path
+                                    d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z">
+                                </path>
+                            </svg>
+                            <svg id="star-4" class="star-svg" viewBox="0 0 20 20">
+                                <path
+                                    d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </label>
+            </div>
+
             <div class="mobile-language-switcher">
                 <button id="mobile-language-switcher">English</button>
             </div>
@@ -1186,6 +1777,67 @@
             <div class="auth-buttons">
                 <button onclick="openLoginModal()">تسجيل الدخول</button>
                 <button onclick="openSignupModal()">إنشاء حساب</button>
+
+                <!-- Dark/Light Mode Switch - محسن -->
+                <label class="switch">
+                    <input id="dark-mode-input" type="checkbox" />
+                    <div class="slider round">
+                        <div class="sun-moon">
+                            <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+                            <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+                            <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+                            <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+                            <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+                            <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+
+                            <svg id="cloud-1" class="cloud" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+                            <svg id="cloud-2" class="cloud" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+                            <svg id="cloud-3" class="cloud" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="50"></circle>
+                            </svg>
+                        </div>
+                        <div class="stars">
+                            <svg id="star-1" class="star-svg" viewBox="0 0 20 20">
+                                <path
+                                    d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z">
+                                </path>
+                            </svg>
+                            <svg id="star-2" class="star-svg" viewBox="0 0 20 20">
+                                <path
+                                    d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z">
+                                </path>
+                            </svg>
+                            <svg id="star-3" class="star-svg" viewBox="0 0 20 20">
+                                <path
+                                    d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z">
+                                </path>
+                            </svg>
+                            <svg id="star-4" class="star-svg" viewBox="0 0 20 20">
+                                <path
+                                    d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </label>
+
+                <button id="theme-switcher">Codey Mode</button>
                 <button id="language-switcher">English</button>
             </div>
         </div>
@@ -1510,6 +2162,122 @@
 
     <script>
         // =======================================================
+        // Dark/Light Mode Management System - الإصدار المصحح
+        // =======================================================
+        let isDarkMode = true;
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+
+            // تحديث حالة الـ checkboxes
+            const darkModeInput = document.getElementById('dark-mode-input');
+            const mobileDarkModeInput = document.getElementById('mobile-dark-mode-input');
+
+            if (darkModeInput) darkModeInput.checked = isDarkMode;
+            if (mobileDarkModeInput) mobileDarkModeInput.checked = isDarkMode;
+
+            // إزالة الكلاسات الحالية
+            document.body.classList.remove('light-mode-override', 'dark-mode-override');
+
+            // تطبيق الوضع الجديد
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode-override');
+            } else {
+                document.body.classList.add('light-mode-override');
+            }
+
+            // حفظ التفضيل
+            localStorage.setItem('darkModePreference', isDarkMode);
+
+            // إشعار
+            showNotification('info',
+                currentLanguage === 'ar' ?
+                    (isDarkMode ? 'تم التبديل إلى الوضع الداكن' : 'تم التبديل إلى الوضع الفاتح') :
+                    (isDarkMode ? 'Switched to Dark Mode' : 'Switched to Light Mode')
+            );
+        }
+
+        function loadDarkModePreference() {
+            const savedDarkMode = localStorage.getItem('darkModePreference');
+            if (savedDarkMode !== null) {
+                isDarkMode = savedDarkMode === 'true';
+            }
+
+            // تحديث الـ checkboxes
+            const darkModeInput = document.getElementById('dark-mode-input');
+            const mobileDarkModeInput = document.getElementById('mobile-dark-mode-input');
+
+            if (darkModeInput) darkModeInput.checked = isDarkMode;
+            if (mobileDarkModeInput) mobileDarkModeInput.checked = isDarkMode;
+
+            // تطبيق الوضع المحفوظ
+            document.body.classList.remove('light-mode-override', 'dark-mode-override');
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode-override');
+            } else {
+                document.body.classList.add('light-mode-override');
+            }
+        }
+
+        // =======================================================
+        // Theme Management System - الإصدار المصحح
+        // =======================================================
+        const themes = {
+            'codey-mode': {
+                name: { ar: 'Codey Mode', en: 'Codey Mode' },
+                next: 'standard-mode'
+            },
+            'standard-mode': {
+                name: { ar: 'Standard Mode', en: 'Standard Mode' },
+                next: 'codey-mode'
+            }
+        };
+
+        let currentTheme = 'codey-mode';
+
+        function switchTheme() {
+            // إزالة الثيم الحالي
+            document.body.classList.remove(currentTheme);
+
+            // الحصول على الثيم التالي
+            currentTheme = themes[currentTheme].next;
+
+            // تطبيق الثيم الجديد
+            document.body.classList.add(currentTheme);
+
+            // تحديث نص الأزرار
+            updateThemeSwitcherText();
+
+            // حفظ التفضيل
+            localStorage.setItem('preferredTheme', currentTheme);
+
+            // إشعار
+            showNotification('info',
+                currentLanguage === 'ar' ?
+                    `تم التبديل إلى ${themes[currentTheme].name.ar}` :
+                    `Switched to ${themes[currentTheme].name.en}`
+            );
+        }
+
+        function updateThemeSwitcherText() {
+            const themeName = currentLanguage === 'ar' ?
+                themes[currentTheme].name.ar : themes[currentTheme].name.en;
+
+            const themeSwitcher = document.getElementById('theme-switcher');
+            const mobileThemeSwitcher = document.getElementById('mobile-theme-switcher');
+
+            if (themeSwitcher) themeSwitcher.textContent = themeName;
+            if (mobileThemeSwitcher) mobileThemeSwitcher.textContent = themeName;
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('preferredTheme') || 'codey-mode';
+            currentTheme = savedTheme;
+            document.body.classList.add(currentTheme);
+            updateThemeSwitcherText();
+        }
+
+        // =======================================================
         // Translation System
         // =======================================================
         const translations = {
@@ -1522,6 +2290,7 @@
                 login: "تسجيل الدخول",
                 signup: "إنشاء حساب",
                 language: "English",
+                theme: "Codey Mode",
 
                 // Hero Section
                 heroTitle: "ابدأ رحلتك في عالم البرمجة",
@@ -1550,7 +2319,7 @@
                 faq1Answer: "ننصح بالبدء مع كورس HTML & CSS ثم الانتقال إلى JavaScript، حيث أن هذه اللغات تشكل الأساس لأي مبرمج ويب.",
                 faq2Question: "هل أحتاج لخلفية في البرمجة؟",
                 faq2Answer: "لا، جميع الكورسات تبدأ من الصفر ولا تحتاج لأي خلفية مسبقة في البرمجة.",
-                faq3Question: "كم مدة الكورسات؟",
+                faq3Question: "كم مدة الكورسات?",
                 faq3Answer: "مدة الكورسات تتراوح بين 4 إلى 8 أسابيع حسب مستوى الكورس ومدى التزامك بالدراسة.",
                 faq4Question: "هل أحصل على شهادة بعد الانتهاء؟",
                 faq4Answer: "نعم، تحصل على شهادة معتمدة من المنصة بعد إتمام كل كورس بنجاح.",
@@ -1582,6 +2351,7 @@
                 login: "Login",
                 signup: "Sign Up",
                 language: "العربية",
+                theme: "Codey Mode",
 
                 // Hero Section
                 heroTitle: "Start Your Programming Journey",
@@ -1636,22 +2406,92 @@
         };
 
         // =======================================================
-        // Courses Data - بدون Node.js و Python
+        // Courses Data
         // =======================================================
         const coursesData = {
             ar: [
-                { name: 'HTML & CSS', title: 'تطوير واجهات الويب الأساسية', desc: 'تعلم أساسيات تطوير واجهات الويب باستخدام HTML و CSS.', price: 300 },
-                { name: 'JavaScript', title: 'برمجة JavaScript التفاعلية', desc: 'أتقن لغة JavaScript لإضافة التفاعل إلى مواقع الويب.', price: 400 },
-                { name: 'React JS', title: 'بناء تطبيقات React المتقدمة', desc: 'تعلم React لبناء واجهات مستخدم قوية وفعالة.', price: 500 },
-                { name: 'Tailwind CSS', title: 'تصميم سريع باستخدام Tailwind', desc: 'استخدم إطار عمل Tailwind CSS لتنسيق مواقع الويب.', price: 350 },
-                { name: 'Bootstrap', title: 'التصميم المتجاوب مع Bootstrap', desc: 'تعلم استخدام Bootstrap لإنشاء تصاميم ويب متجاوبة وجذابة.', price: 300 }
+                {
+                    name: 'HTML & CSS',
+                    title: 'تطوير واجهات الويب الأساسية',
+                    desc: 'تعلم أساسيات تطوير واجهات الويب باستخدام HTML و CSS.',
+                    price: 300,
+                    icon: 'fab fa-html5',
+                    color: '#e34f26'
+                },
+                {
+                    name: 'JavaScript',
+                    title: 'برمجة JavaScript التفاعلية',
+                    desc: 'أتقن لغة JavaScript لإضافة التفاعل إلى مواقع الويب.',
+                    price: 400,
+                    icon: 'fab fa-js',
+                    color: '#f7df1e'
+                },
+                {
+                    name: 'React JS',
+                    title: 'بناء تطبيقات React المتقدمة',
+                    desc: 'تعلم React لبناء واجهات مستخدم قوية وفعالة.',
+                    price: 500,
+                    icon: 'fab fa-react',
+                    color: '#61dafb'
+                },
+                {
+                    name: 'Tailwind CSS',
+                    title: 'تصميم سريع باستخدام Tailwind',
+                    desc: 'استخدم إطار عمل Tailwind CSS لتنسيق مواقع الويب.',
+                    price: 350,
+                    icon: 'fas fa-wind',
+                    color: '#38bdf8'
+                },
+                {
+                    name: 'Bootstrap',
+                    title: 'التصميم المتجاوب مع Bootstrap',
+                    desc: 'تعلم استخدام Bootstrap لإنشاء تصاميم ويب متجاوبة وجذابة.',
+                    price: 300,
+                    icon: 'fab fa-bootstrap',
+                    color: '#7952b3'
+                }
             ],
             en: [
-                { name: 'HTML & CSS', title: 'Web Development Fundamentals', desc: 'Learn the basics of web development using HTML and CSS.', price: 300 },
-                { name: 'JavaScript', title: 'Interactive JavaScript Programming', desc: 'Master JavaScript language to add interactivity to websites.', price: 400 },
-                { name: 'React JS', title: 'Advanced React Applications', desc: 'Learn React to build powerful and efficient user interfaces.', price: 500 },
-                { name: 'Tailwind CSS', title: 'Rapid Design with Tailwind', desc: 'Use Tailwind CSS framework to style websites.', price: 350 },
-                { name: 'Bootstrap', title: 'Responsive Design with Bootstrap', desc: 'Learn to use Bootstrap for creating responsive and attractive web designs.', price: 300 }
+                {
+                    name: 'HTML & CSS',
+                    title: 'Web Development Fundamentals',
+                    desc: 'Learn the basics of web development using HTML and CSS.',
+                    price: 300,
+                    icon: 'fab fa-html5',
+                    color: '#e34f26'
+                },
+                {
+                    name: 'JavaScript',
+                    title: 'Interactive JavaScript Programming',
+                    desc: 'Master JavaScript language to add interactivity to websites.',
+                    price: 400,
+                    icon: 'fab fa-js',
+                    color: '#f7df1e'
+                },
+                {
+                    name: 'React JS',
+                    title: 'Advanced React Applications',
+                    desc: 'Learn React to build powerful and efficient user interfaces.',
+                    price: 500,
+                    icon: 'fab fa-react',
+                    color: '#61dafb'
+                },
+                {
+                    name: 'Tailwind CSS',
+                    title: 'Rapid Design with Tailwind',
+                    desc: 'Use Tailwind CSS framework to style websites.',
+                    price: 350,
+                    icon: 'fas fa-wind',
+                    color: '#38bdf8'
+                },
+                {
+                    name: 'Bootstrap',
+                    title: 'Responsive Design with Bootstrap',
+                    desc: 'Learn to use Bootstrap for creating responsive and attractive web designs.',
+                    price: 300,
+                    icon: 'fab fa-bootstrap',
+                    color: '#7952b3'
+                }
             ]
         };
 
@@ -1664,6 +2504,199 @@
         let animationId = null;
         let isAutoScrolling = true;
         let isUserInteracting = false;
+
+        // =======================================================
+        // Language Management
+        // =======================================================
+        let currentLanguage = 'ar';
+
+        function switchLanguage() {
+            currentLanguage = currentLanguage === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('preferredLanguage', currentLanguage);
+            updatePageLanguage(currentLanguage);
+        }
+
+        function updatePageLanguage(lang) {
+            currentLanguage = lang;
+
+            // Update HTML attributes
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+            // Update all text content
+            updateTextContent(lang);
+
+            // Update courses
+            updateCourses(lang);
+
+            // Update language switcher buttons
+            document.getElementById('language-switcher').textContent = translations[lang].language;
+            document.getElementById('mobile-language-switcher').textContent = translations[lang].language;
+        }
+
+        function updateTextContent(lang) {
+            const t = translations[lang];
+
+            // Navigation
+            document.querySelectorAll('.nav-links a, .mobile-nav-links a').forEach((link, index) => {
+                const texts = [t.home, t.courses, t.blog, t.contact];
+                link.textContent = texts[index];
+                if (link.hasAttribute('data-text')) {
+                    link.setAttribute('data-text', texts[index]);
+                }
+            });
+
+            // Auth buttons
+            document.querySelectorAll('.auth-buttons button, .mobile-auth-buttons button').forEach((btn, index) => {
+                btn.textContent = index === 0 ? t.login : t.signup;
+            });
+
+            // Hero section
+            document.querySelector('.hero h1').textContent = t.heroTitle;
+            document.querySelector('.hero p').textContent = t.heroDesc;
+            document.querySelector('.cta-button').textContent = t.ctaButton;
+
+            // Section titles
+            document.querySelector('.courses .section-title').textContent = t.coursesTitle;
+            document.querySelector('.video-section .section-title').textContent = t.videoTitle;
+            document.querySelector('.features .section-title').textContent = t.featuresTitle;
+            document.querySelector('.video-section p').textContent = t.videoDesc;
+            document.querySelector('.faq-section .section-title').textContent = t.faqTitle;
+
+            // Features
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards[0].querySelector('h3').textContent = t.feature1Title;
+            featureCards[0].querySelector('p').textContent = t.feature1Desc;
+            featureCards[1].querySelector('h3').textContent = t.feature2Title;
+            featureCards[1].querySelector('p').textContent = t.feature2Desc;
+            featureCards[2].querySelector('h3').textContent = t.feature3Title;
+            featureCards[2].querySelector('p').textContent = t.feature3Desc;
+
+            // FAQ
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems[0].querySelector('.faq-question h3').textContent = t.faq1Question;
+            faqItems[0].querySelector('.faq-answer p').textContent = t.faq1Answer;
+            faqItems[1].querySelector('.faq-question h3').textContent = t.faq2Question;
+            faqItems[1].querySelector('.faq-answer p').textContent = t.faq2Answer;
+            faqItems[2].querySelector('.faq-question h3').textContent = t.faq3Question;
+            faqItems[2].querySelector('.faq-answer p').textContent = t.faq3Answer;
+            faqItems[3].querySelector('.faq-question h3').textContent = t.faq4Question;
+            faqItems[3].querySelector('.faq-answer p').textContent = t.faq4Answer;
+
+            // Footer
+            document.querySelectorAll('.footer-section h3')[0].textContent = t.contactUs;
+            document.querySelectorAll('.footer-section p')[0].innerHTML = `<i class="fas fa-map-marker-alt"></i> ${t.address}`;
+            document.querySelectorAll('.footer-section p')[1].innerHTML = `<i class="fas fa-envelope"></i> ${t.email}`;
+            document.querySelectorAll('.footer-section h3')[1].textContent = t.quickLinks;
+            document.querySelectorAll('.footer-section h3')[2].textContent = t.support;
+            document.querySelectorAll('.footer-section p')[2].textContent = t.supportDesc;
+            document.querySelectorAll('.footer-section h3')[3].textContent = t.followUs;
+            document.querySelector('.footer-bottom p').textContent = t.rights;
+        }
+
+        function updateCourses(lang) {
+            const courses = coursesData[lang];
+            const track = document.getElementById('cardsTrack');
+
+            // Clear existing cards
+            track.innerHTML = '';
+
+            // Create duplicate sets for seamless animation
+            for (let set = 0; set < 3; set++) {
+                courses.forEach((course, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+
+                    // Get user rating for this course
+                    const userRating = userRatings[course.name] || 0;
+                    const stars = generateStars(userRating, course.name);
+
+                    card.innerHTML = `
+                        <div class="card-img">
+                            <i class="${course.icon}" style="color: ${course.color}; font-size: 40px;"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>${course.title}</h3>
+                            <p>${course.desc}</p>
+                            <div class="card-rating">
+                                <div class="rating-stars" id="stars-${course.name}">
+                                    ${stars}
+                                </div>
+                                <span class="rating-text">
+                                    ${userRating > 0 ?
+                            `${translations[lang].yourRating}: ${userRating}/5` :
+                            translations[lang].rateCourse}
+                                </span>
+                            </div>
+                            <div class="card-buttons">
+                                <button class="card-button" onclick="openPaymentModal('${course.name}', ${course.price})">
+                                    ${translations[lang].enrollCourse}
+                                </button>
+                                <button class="card-button secondary" onclick="openCodeModal()">
+                                    ${translations[lang].enterCode}
+                                </button>
+                                <button class="card-button secondary" onclick="openRatingModal('${course.name}')">
+                                    ${translations[lang].rateCourse}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    track.appendChild(card);
+                });
+            }
+
+            // Add event listeners for stars
+            setupStarRating();
+
+            // Restart scroll system
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+            setupScroll();
+        }
+
+        function generateStars(rating, courseName) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                stars += `<span class="star ${i <= rating ? 'active' : ''}" data-rating="${i}" data-course="${courseName}">★</span>`;
+            }
+            return stars;
+        }
+
+        function setupStarRating() {
+            document.querySelectorAll('.star').forEach(star => {
+                star.addEventListener('click', function () {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    const courseName = this.getAttribute('data-course');
+                    rateCourse(courseName, rating);
+                });
+            });
+        }
+
+        function rateCourse(courseName, rating) {
+            userRatings[courseName] = rating;
+            localStorage.setItem('userRatings', JSON.stringify(userRatings));
+
+            // Update the stars visually
+            const starsContainer = document.getElementById(`stars-${courseName}`);
+            if (starsContainer) {
+                starsContainer.innerHTML = generateStars(rating, courseName);
+                setupStarRating();
+            }
+
+            // Update rating text
+            const ratingText = starsContainer?.parentElement?.querySelector('.rating-text');
+            if (ratingText) {
+                ratingText.textContent = `${translations[currentLanguage].yourRating}: ${rating}/5`;
+            }
+
+            showNotification('success',
+                currentLanguage === 'ar' ?
+                    `شكراً لك! قمت بتقييم ${courseName} بـ ${rating} نجوم` :
+                    `Thank you! You rated ${courseName} with ${rating} stars`
+            );
+        }
 
         // =======================================================
         // Scroll System - حركة مستمرة + تمرير يدوي
@@ -1784,358 +2817,6 @@
         }
 
         // =======================================================
-        // Language Management
-        // =======================================================
-        let currentLanguage = 'ar';
-
-        function switchLanguage() {
-            currentLanguage = currentLanguage === 'ar' ? 'en' : 'ar';
-            localStorage.setItem('preferredLanguage', currentLanguage);
-            updatePageLanguage(currentLanguage);
-        }
-
-        function updatePageLanguage(lang) {
-            currentLanguage = lang;
-
-            // Update HTML attributes
-            document.documentElement.setAttribute('lang', lang);
-            document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-            document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-
-            // Update all text content
-            updateTextContent(lang);
-
-            // Update courses
-            updateCourses(lang);
-
-            // Update language switcher buttons
-            document.getElementById('language-switcher').textContent = translations[lang].language;
-            document.getElementById('mobile-language-switcher').textContent = translations[lang].language;
-        }
-
-        function updateTextContent(lang) {
-            const t = translations[lang];
-
-            // Navigation
-            document.querySelectorAll('.nav-links a, .mobile-nav-links a').forEach((link, index) => {
-                const texts = [t.home, t.courses, t.blog, t.contact];
-                link.textContent = texts[index];
-                if (link.hasAttribute('data-text')) {
-                    link.setAttribute('data-text', texts[index]);
-                }
-            });
-
-            // Auth buttons
-            document.querySelectorAll('.auth-buttons button, .mobile-auth-buttons button').forEach((btn, index) => {
-                btn.textContent = index === 0 ? t.login : t.signup;
-            });
-
-            // Hero section
-            document.querySelector('.hero h1').textContent = t.heroTitle;
-            document.querySelector('.hero p').textContent = t.heroDesc;
-            document.querySelector('.cta-button').textContent = t.ctaButton;
-
-            // Section titles
-            document.querySelector('.courses .section-title').textContent = t.coursesTitle;
-            document.querySelector('.video-section .section-title').textContent = t.videoTitle;
-            document.querySelector('.features .section-title').textContent = t.featuresTitle;
-            document.querySelector('.video-section p').textContent = t.videoDesc;
-            document.querySelector('.faq-section .section-title').textContent = t.faqTitle;
-
-            // Features
-            const featureCards = document.querySelectorAll('.feature-card');
-            featureCards[0].querySelector('h3').textContent = t.feature1Title;
-            featureCards[0].querySelector('p').textContent = t.feature1Desc;
-            featureCards[1].querySelector('h3').textContent = t.feature2Title;
-            featureCards[1].querySelector('p').textContent = t.feature2Desc;
-            featureCards[2].querySelector('h3').textContent = t.feature3Title;
-            featureCards[2].querySelector('p').textContent = t.feature3Desc;
-
-            // FAQ
-            const faqItems = document.querySelectorAll('.faq-item');
-            faqItems[0].querySelector('.faq-question h3').textContent = t.faq1Question;
-            faqItems[0].querySelector('.faq-answer p').textContent = t.faq1Answer;
-            faqItems[1].querySelector('.faq-question h3').textContent = t.faq2Question;
-            faqItems[1].querySelector('.faq-answer p').textContent = t.faq2Answer;
-            faqItems[2].querySelector('.faq-question h3').textContent = t.faq3Question;
-            faqItems[2].querySelector('.faq-answer p').textContent = t.faq3Answer;
-            faqItems[3].querySelector('.faq-question h3').textContent = t.faq4Question;
-            faqItems[3].querySelector('.faq-answer p').textContent = t.faq4Answer;
-
-            // Footer
-            document.querySelectorAll('.footer-section h3')[0].textContent = t.contactUs;
-            document.querySelectorAll('.footer-section p')[0].innerHTML = `<i class="fas fa-map-marker-alt"></i> ${t.address}`;
-            document.querySelectorAll('.footer-section p')[1].innerHTML = `<i class="fas fa-envelope"></i> ${t.email}`;
-            document.querySelectorAll('.footer-section h3')[1].textContent = t.quickLinks;
-            document.querySelectorAll('.footer-section h3')[2].textContent = t.support;
-            document.querySelectorAll('.footer-section p')[2].textContent = t.supportDesc;
-            document.querySelectorAll('.footer-section h3')[3].textContent = t.followUs;
-            document.querySelector('.footer-bottom p').textContent = t.rights;
-        }
-
-        function updateCourses(lang) {
-            const courses = coursesData[lang];
-            const track = document.getElementById('cardsTrack');
-
-            // Clear existing cards
-            track.innerHTML = '';
-
-            // Create duplicate sets for seamless animation
-            for (let set = 0; set < 3; set++) {
-                courses.forEach((course, index) => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
-
-                    // Get user rating for this course
-                    const userRating = userRatings[course.name] || 0;
-                    const stars = generateStars(userRating, course.name);
-
-                    card.innerHTML = `
-                        <div class="card-img">${course.name}</div>
-                        <div class="card-content">
-                            <h3>${course.title}</h3>
-                            <p>${course.desc}</p>
-                            <div class="card-rating">
-                                <div class="rating-stars" id="stars-${course.name}">
-                                    ${stars}
-                                </div>
-                                <span class="rating-text">
-                                    ${userRating > 0 ?
-                            `${translations[lang].yourRating}: ${userRating}/5` :
-                            translations[lang].rateCourse}
-                                </span>
-                            </div>
-                            <div class="card-buttons">
-                                <button class="card-button" onclick="openPaymentModal('${course.name}', ${course.price})">
-                                    ${translations[lang].enrollCourse}
-                                </button>
-                                <button class="card-button secondary" onclick="openCodeModal()">
-                                    ${translations[lang].enterCode}
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    track.appendChild(card);
-                });
-            }
-
-            // Add event listeners for stars
-            setupStarRating();
-
-            // Restart scroll system
-            if (animationId) {
-                cancelAnimationFrame(animationId);
-            }
-            setupScroll();
-        }
-
-        function generateStars(rating, courseName) {
-            let stars = '';
-            for (let i = 1; i <= 5; i++) {
-                stars += `<span class="star ${i <= rating ? 'active' : ''}" data-rating="${i}" data-course="${courseName}">★</span>`;
-            }
-            return stars;
-        }
-
-        function setupStarRating() {
-            document.querySelectorAll('.star').forEach(star => {
-                star.addEventListener('click', function () {
-                    const rating = parseInt(this.getAttribute('data-rating'));
-                    const courseName = this.getAttribute('data-course');
-                    rateCourse(courseName, rating);
-                });
-            });
-        }
-
-        function rateCourse(courseName, rating) {
-            userRatings[courseName] = rating;
-            localStorage.setItem('userRatings', JSON.stringify(userRatings));
-
-            // Update the stars visually
-            const starsContainer = document.getElementById(`stars-${courseName}`);
-            if (starsContainer) {
-                starsContainer.innerHTML = generateStars(rating, courseName);
-                setupStarRating();
-            }
-
-            // Update rating text
-            const ratingText = starsContainer?.parentElement?.querySelector('.rating-text');
-            if (ratingText) {
-                ratingText.textContent = `${translations[currentLanguage].yourRating}: ${rating}/5`;
-            }
-
-            showNotification('success',
-                currentLanguage === 'ar' ?
-                    `شكراً لك! قمت بتقييم ${courseName} بـ ${rating} نجوم` :
-                    `Thank you! You rated ${courseName} with ${rating} stars`
-            );
-        }
-
-        // باقي الدوال تبقى كما هي بدون تغيير...
-        // [يتم اختصار باقي الكود للحفاظ على الطول]
-
-        function openRatingModal(courseName) {
-            currentRatingCourse = courseName;
-            currentUserRating = userRatings[courseName] || 0;
-
-            document.getElementById('ratingModalTitle').textContent =
-                `${translations[currentLanguage].rateCourse}: ${courseName}`;
-
-            // Reset stars in modal
-            const stars = document.querySelectorAll('.star-modal');
-            stars.forEach((star, index) => {
-                star.classList.toggle('active', index < currentUserRating);
-            });
-
-            document.getElementById('ratingText').textContent =
-                currentUserRating > 0 ?
-                    `${translations[currentLanguage].yourRating}: ${currentUserRating}/5` :
-                    translations[currentLanguage].chooseRating;
-
-            document.getElementById('ratingModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-
-            // Add event listeners to modal stars
-            setupModalStars();
-        }
-
-        function setupModalStars() {
-            document.querySelectorAll('.star-modal').forEach((star, index) => {
-                star.onclick = function () {
-                    currentUserRating = index + 1;
-
-                    // Update stars visually
-                    document.querySelectorAll('.star-modal').forEach((s, i) => {
-                        s.classList.toggle('active', i < currentUserRating);
-                    });
-
-                    // Update rating text
-                    document.getElementById('ratingText').textContent =
-                        `${translations[currentLanguage].yourRating}: ${currentUserRating}/5 - ${translations[currentLanguage].ratingTexts[currentUserRating - 1]}`;
-                };
-            });
-        }
-
-        function submitRating() {
-            if (currentUserRating > 0) {
-                rateCourse(currentRatingCourse, currentUserRating);
-                closeRatingModal();
-            } else {
-                showNotification('error',
-                    currentLanguage === 'ar' ?
-                        'يرجى اختيار تقييم قبل التأكيد' :
-                        'Please choose a rating before confirming'
-                );
-            }
-        }
-
-        function closeRatingModal() {
-            document.getElementById('ratingModal').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        // =======================================================
-        // Glitch Background Animation
-        // =======================================================
-        const setupGlitchCanvas = () => {
-            const canvas = document.getElementById('glitch-canvas');
-            if (!canvas) return;
-
-            const ctx = canvas.getContext('2d');
-            let animationFrameId;
-
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789';
-            const lettersAndSymbols = Array.from(characters);
-            const fontSize = 14;
-            const charWidth = 8;
-            const charHeight = 16;
-            const glitchSpeed = 50;
-            let lastGlitchTime = Date.now();
-            let letters = [];
-            let grid = { columns: 0, rows: 0 };
-            let isTabActive = true;
-
-            const getRandomChar = () => lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)];
-            const getRandomColor = () => ['#2b4539', '#61dca3', '#61b3dc'][Math.floor(Math.random() * 3)];
-
-            const calculateGrid = (width, height) => ({
-                columns: Math.ceil(width / charWidth),
-                rows: Math.ceil(height / charHeight)
-            });
-
-            const initializeLetters = (columns, rows) => {
-                grid = { columns, rows };
-                const totalLetters = columns * rows;
-                letters = Array.from({ length: totalLetters }, () => ({
-                    char: getRandomChar(),
-                    color: getRandomColor()
-                }));
-            };
-
-            const resizeCanvas = () => {
-                const container = document.getElementById('glitch-background-container');
-                if (!container) return;
-
-                const rect = container.getBoundingClientRect();
-                canvas.width = rect.width;
-                canvas.height = rect.height;
-                canvas.style.width = `${rect.width}px`;
-                canvas.style.height = `${rect.height}px`;
-
-                const newGrid = calculateGrid(rect.width, rect.height);
-                initializeLetters(newGrid.columns, newGrid.rows);
-            };
-
-            const drawLetters = () => {
-                if (letters.length === 0) return;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.font = `${fontSize}px monospace`;
-                ctx.textBaseline = 'top';
-
-                letters.forEach((letter, index) => {
-                    const x = (index % grid.columns) * charWidth;
-                    const y = Math.floor(index / grid.columns) * charHeight;
-                    ctx.fillStyle = letter.color;
-                    ctx.fillText(letter.char, x, y);
-                });
-            };
-
-            const updateLetters = () => {
-                const updateCount = Math.max(1, Math.floor(letters.length * 0.05));
-                for (let i = 0; i < updateCount; i++) {
-                    const index = Math.floor(Math.random() * letters.length);
-                    letters[index].char = getRandomChar();
-                    letters[index].color = getRandomColor();
-                }
-            };
-
-            const optimizedAnimate = () => {
-                if (!isTabActive) {
-                    animationFrameId = requestAnimationFrame(optimizedAnimate);
-                    return;
-                }
-
-                const now = Date.now();
-                if (now - lastGlitchTime >= glitchSpeed) {
-                    updateLetters();
-                    drawLetters();
-                    lastGlitchTime = now;
-                }
-                animationFrameId = requestAnimationFrame(optimizedAnimate);
-            };
-
-            // Handle tab visibility for performance
-            document.addEventListener('visibilitychange', () => {
-                isTabActive = !document.hidden;
-            });
-
-            resizeCanvas();
-            optimizedAnimate();
-
-            window.addEventListener('resize', resizeCanvas);
-        };
-
-        // =======================================================
         // GooeyNav Implementation
         // =======================================================
         class GooeyNav {
@@ -2179,6 +2860,7 @@
             }
 
             handleClick(e, index) {
+                e.preventDefault();
                 if (this.activeIndex === index) return;
 
                 this.activeIndex = index;
@@ -2207,7 +2889,7 @@
 
                 Object.assign(this.filterEffect.style, styles);
                 Object.assign(this.textEffect.style, styles);
-                this.textEffect.textContent = element.textContent;
+                this.textEffect.setAttribute('data-text', element.querySelector('a').getAttribute('data-text'));
             }
 
             noise(n = 1) {
@@ -2428,15 +3110,99 @@
             closeSignupModal();
         }
 
-        // Close modals when clicking outside
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', function (e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
-                    document.body.style.overflow = '';
+        // =======================================================
+        // Rating Modal Functions - الدوال الناقصة
+        // =======================================================
+        function openRatingModal(courseName) {
+            currentRatingCourse = courseName;
+            document.getElementById('ratingModalTitle').textContent =
+                currentLanguage === 'ar' ? `قيم كورس ${courseName}` : `Rate ${courseName} Course`;
+            document.getElementById('ratingModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Reset stars
+            document.querySelectorAll('.star-modal').forEach(star => {
+                star.classList.remove('active');
+            });
+            document.getElementById('ratingText').textContent =
+                currentLanguage === 'ar' ? 'اختر تقييمك' : 'Choose your rating';
+
+            // Setup star rating events
+            setupModalStarRating();
+        }
+
+        function closeRatingModal() {
+            document.getElementById('ratingModal').classList.remove('active');
+            document.body.style.overflow = '';
+            currentRatingCourse = '';
+            currentUserRating = 0;
+        }
+
+        function setupModalStarRating() {
+            const stars = document.querySelectorAll('.star-modal');
+            const ratingText = document.getElementById('ratingText');
+
+            stars.forEach(star => {
+                star.addEventListener('mouseover', function () {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    highlightStars(rating);
+                    updateRatingText(rating);
+                });
+
+                star.addEventListener('click', function () {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    currentUserRating = rating;
+                    highlightStars(rating);
+                    updateRatingText(rating);
+                });
+            });
+
+            // Reset when mouse leaves stars container
+            document.querySelector('.stars-container').addEventListener('mouseleave', function () {
+                if (currentUserRating === 0) {
+                    resetStars();
+                } else {
+                    highlightStars(currentUserRating);
                 }
             });
-        });
+        }
+
+        function highlightStars(rating) {
+            const stars = document.querySelectorAll('.star-modal');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function resetStars() {
+            const stars = document.querySelectorAll('.star-modal');
+            stars.forEach(star => {
+                star.classList.remove('active');
+            });
+            document.getElementById('ratingText').textContent =
+                currentLanguage === 'ar' ? 'اختر تقييمك' : 'Choose your rating';
+        }
+
+        function updateRatingText(rating) {
+            const ratingTexts = translations[currentLanguage].ratingTexts;
+            document.getElementById('ratingText').textContent = ratingTexts[rating - 1];
+        }
+
+        function submitRating() {
+            if (currentUserRating === 0) {
+                showNotification('error',
+                    currentLanguage === 'ar' ? 'يرجى اختيار تقييم قبل التأكيد' : 'Please choose a rating before confirming'
+                );
+                return;
+            }
+
+            rateCourse(currentRatingCourse, currentUserRating);
+            closeRatingModal();
+        }
 
         // =======================================================
         // Mobile Navigation
@@ -2457,44 +3223,189 @@
         }
 
         // =======================================================
-        // Initialization
+        // Glitch Background Animation
+        // =======================================================
+        const setupGlitchCanvas = () => {
+            const canvas = document.getElementById('glitch-canvas');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            let animationFrameId;
+
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789';
+            const lettersAndSymbols = Array.from(characters);
+            const fontSize = 14;
+            const charWidth = 8;
+            const charHeight = 16;
+            const glitchSpeed = 50;
+            let lastGlitchTime = Date.now();
+            let letters = [];
+            let grid = { columns: 0, rows: 0 };
+            let isTabActive = true;
+
+            const getRandomChar = () => lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)];
+            const getRandomColor = () => ['#2b4539', '#61dca3', '#61b3dc'][Math.floor(Math.random() * 3)];
+
+            const calculateGrid = (width, height) => ({
+                columns: Math.ceil(width / charWidth),
+                rows: Math.ceil(height / charHeight)
+            });
+
+            const initializeLetters = (columns, rows) => {
+                grid = { columns, rows };
+                const totalLetters = columns * rows;
+                letters = Array.from({ length: totalLetters }, () => ({
+                    char: getRandomChar(),
+                    color: getRandomColor()
+                }));
+            };
+
+            const resizeCanvas = () => {
+                const container = document.getElementById('glitch-background-container');
+                if (!container) return;
+
+                const rect = container.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+                canvas.style.width = `${rect.width}px`;
+                canvas.style.height = `${rect.height}px`;
+
+                const newGrid = calculateGrid(rect.width, rect.height);
+                initializeLetters(newGrid.columns, newGrid.rows);
+            };
+
+            const drawLetters = () => {
+                if (letters.length === 0) return;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.font = `${fontSize}px monospace`;
+                ctx.textBaseline = 'top';
+
+                letters.forEach((letter, index) => {
+                    const x = (index % grid.columns) * charWidth;
+                    const y = Math.floor(index / grid.columns) * charHeight;
+                    ctx.fillStyle = letter.color;
+                    ctx.fillText(letter.char, x, y);
+                });
+            };
+
+            const updateLetters = () => {
+                const updateCount = Math.max(1, Math.floor(letters.length * 0.05));
+                for (let i = 0; i < updateCount; i++) {
+                    const index = Math.floor(Math.random() * letters.length);
+                    letters[index].char = getRandomChar();
+                    letters[index].color = getRandomColor();
+                }
+            };
+
+            const optimizedAnimate = () => {
+                if (!isTabActive) {
+                    animationFrameId = requestAnimationFrame(optimizedAnimate);
+                    return;
+                }
+
+                const now = Date.now();
+                if (now - lastGlitchTime >= glitchSpeed) {
+                    updateLetters();
+                    drawLetters();
+                    lastGlitchTime = now;
+                }
+                animationFrameId = requestAnimationFrame(optimizedAnimate);
+            };
+
+            // Handle tab visibility for performance
+            document.addEventListener('visibilitychange', () => {
+                isTabActive = !document.hidden;
+            });
+
+            resizeCanvas();
+            optimizedAnimate();
+
+            window.addEventListener('resize', resizeCanvas);
+        };
+
+        // =======================================================
+        // Initialization - الإصدار المصحح
         // =======================================================
         document.addEventListener('DOMContentLoaded', () => {
-            // Load preferred language
+            // تحميل التفضيلات
+            loadTheme();
+            loadDarkModePreference();
+
+            // تحميل اللغة المفضلة
             const preferredLang = localStorage.getItem('preferredLanguage') || 'ar';
             updatePageLanguage(preferredLang);
 
-            // Setup glitch background
+            // إعداد المستمعين للأحداث
+            setupEventListeners();
+
+            // إعداد الأنظمة
             setupGlitchCanvas();
-
-            // Setup mobile navigation
             setupMobileNavigation();
-
-            // Setup FAQ system
             setupFAQ();
-
-            // Setup scroll system
             setupScroll();
 
-            // Setup language switcher
-            document.getElementById('language-switcher').addEventListener('click', switchLanguage);
-            document.getElementById('mobile-language-switcher').addEventListener('click', switchLanguage);
-
-            // Initialize GooeyNav
+            // إعداد GooeyNav
             const gooeyNavContainer = document.getElementById('gooey-nav-wrapper');
             if (gooeyNavContainer) {
                 new GooeyNav(gooeyNavContainer);
             }
 
-            // Show welcome notification
+            // إشعار ترحيبي
             setTimeout(() => {
                 showNotification('info', currentLanguage === 'ar' ?
                     'مرحباً بك في منصة Lam3Code! ابدأ رحلتك في تعلم البرمجة الآن.' :
                     'Welcome to Lam3Code! Start your programming journey now.');
             }, 1000);
         });
+
+        function setupEventListeners() {
+            // مستمعي أحداث زر الثيم
+            const themeSwitcher = document.getElementById('theme-switcher');
+            const mobileThemeSwitcher = document.getElementById('mobile-theme-switcher');
+
+            if (themeSwitcher) {
+                themeSwitcher.addEventListener('click', switchTheme);
+            }
+
+            if (mobileThemeSwitcher) {
+                mobileThemeSwitcher.addEventListener('click', switchTheme);
+            }
+
+            // مستمعي أحداث Dark/Light Mode
+            const darkModeInput = document.getElementById('dark-mode-input');
+            const mobileDarkModeInput = document.getElementById('mobile-dark-mode-input');
+
+            if (darkModeInput) {
+                darkModeInput.addEventListener('change', toggleDarkMode);
+            }
+
+            if (mobileDarkModeInput) {
+                mobileDarkModeInput.addEventListener('change', toggleDarkMode);
+            }
+
+            // مستمعي أحداث اللغة
+            const languageSwitcher = document.getElementById('language-switcher');
+            const mobileLanguageSwitcher = document.getElementById('mobile-language-switcher');
+
+            if (languageSwitcher) {
+                languageSwitcher.addEventListener('click', switchLanguage);
+            }
+
+            if (mobileLanguageSwitcher) {
+                mobileLanguageSwitcher.addEventListener('click', switchLanguage);
+            }
+        }
+
+        // Close modals when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function (e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
     </script>
 </body>
-
 
 </html>
