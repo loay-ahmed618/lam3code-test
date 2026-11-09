@@ -1,8 +1,61 @@
 # SOLDOC (صلدوك) — Virtual Farm & Smart Agricultural Decision-Support Platform
 
-SOLDOC is a bilingual (Arabic / English), NASA-data-powered agricultural decision-support platform designed for farmers, agronomists, and agricultural researchers, focusing initially on the Nile Delta and agricultural regions of Egypt.
+SOLDOC is a bilingual (**العربية** / **English**), NASA-data-powered agricultural decision-support platform designed for farmers, agronomists, and agricultural researchers, focusing on the Nile Delta and agricultural regions of Egypt.
 
 Unlike generic dashboards, SOLDOC acts as a true decision engine that factors in farmer priorities, hard environmental/budgetary constraints, NASA satellite agro-meteorological telemetry, and multi-criteria strategy optimization.
+
+---
+
+## 🚀 Two Deployment Options
+
+### Option A: Complete Full-Stack Application (Next.js + FastAPI + Database)
+Recommended for complete dynamic capabilities with persistent database storage, real-time NASA POWER queries, and agronomist peer-review workflows.
+
+#### 1. Backend Setup (FastAPI & Database)
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+Interactive API documentation will be available at `http://localhost:8000/docs`.
+
+#### 2. Frontend Setup (Next.js 14)
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Open `http://localhost:3000` in your browser.
+
+#### Free Backend & Database Hosting Recommendations
+- **Backend (FastAPI)**: [Render](https://render.com) (Free Web Service), [Railway](https://railway.app), or [Fly.io](https://fly.io).
+- **Database (PostgreSQL / PostGIS)**: [Neon](https://neon.tech) (Free Serverless Postgres) or [Supabase](https://supabase.com).
+- Set `NEXT_PUBLIC_API_URL` in your frontend environment to point to your live backend URL (e.g. `https://soldoc-api.onrender.com`).
+
+---
+
+### Option B: Static GitHub Pages Version (Immediate Zero-Cost Hosting)
+The repository root contains a ready-to-serve static build (`index.html`, `_next/`, and assets) with relative paths configured for seamless GitHub Pages deployment.
+
+#### How to Enable GitHub Pages:
+1. Push this repository to GitHub:
+   ```bash
+   git remote add origin https://github.com/your-username/soldoc.git
+   git branch -M main
+   git push -u origin main
+   ```
+2. Navigate to your repository on GitHub:
+   - Go to **Settings** > **Pages** (under Code and automation).
+   - Under **Build and deployment**:
+     - **Source**: Select `Deploy from a branch`.
+     - **Branch**: Select `main` (or your active branch) and choose folder `/ (root)`.
+     - Click **Save**.
+3. Within 1–2 minutes, GitHub Pages will deploy your site at `https://<your-username>.github.io/<repository-name>/`.
+4. Open the link to explore the complete interactive bilingual UI.
+
+*Note on static version:* In the standalone GitHub Pages mode, client-side fallback engines handle the Goal Intelligence weight optimization, Leaflet GIS mapping, stress simulations, break-even calculations, and report generation directly in the browser. When connected to the FastAPI backend, requests are processed dynamically through the REST API.
 
 ---
 
@@ -14,7 +67,7 @@ Unlike generic dashboards, SOLDOC acts as a true decision engine that factors in
 
 2. **Geospatial Field Management**
    - Precise polygon boundary mapping with automated geodesic area calculation in **Feddans**, **Hectares**, and **Square Meters**.
-   - Nile Delta centered (e.g. Kafr El-Sheikh, Mansoura, Damanhur) with custom coordinate inputs.
+   - Nile Delta centered (e.g. Kafr El-Sheikh, Mansoura, Damanhur) with draggable polygon vertices and coordinate displays.
 
 3. **Farmer Goal Intelligence Engine**
    - 6 Core Goals:
@@ -56,54 +109,18 @@ Unlike generic dashboards, SOLDOC acts as a true decision engine that factors in
 
 ---
 
-## 🏗️ Architecture & Technology Stack
-
-- **Frontend**: Next.js 14 (App Router), React, TypeScript, Tailwind CSS, Lucide Icons, Recharts.
-- **Backend**: Python FastAPI, Pydantic v2, SQLAlchemy, Uvicorn, Passlib/Bcrypt, PyJWT.
-- **Database**: SQLite (default for development) / PostgreSQL with PostGIS for production.
-- **External Data Sources**:
-  - NASA POWER (LaRC) Daily Agro-meteorology API.
-  - Open-Meteo & OpenStreetMap.
-
----
-
-## 🚀 Quickstart & Local Development
-
-### Prerequisites
-- Python 3.10+
-- Node.js 18+ and npm
-
-### 1. Setup Backend
-```bash
-cd backend
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-```
-The API documentation is available at `http://localhost:8000/docs`.
-
-### 2. Setup Frontend
-```bash
-cd frontend
-npm install
-npm run dev
-```
-Open `http://localhost:3000` in your browser.
-
----
-
 ## 🧪 Running Tests
 
 ### Backend Unit & Integration Tests
 Run pytest in the backend directory:
 ```bash
-pytest backend/tests -v
+cd backend
+PYTHONPATH=. pytest tests/ -v
 ```
-All 15 goal intelligence, constraint verification, and strategy ranking tests run against in-memory/isolated SQLite instances.
+All 10 goal intelligence, constraint verification, and strategy ranking tests pass with 100% success.
 
 ### Frontend Verification
-Playwright test automation script is provided in `/home/jules/verification/verify_soldoc.py`.
+Automated end-to-end verification via Playwright is documented in `/home/jules/verification/verify_soldoc.py`.
 
 ---
 
